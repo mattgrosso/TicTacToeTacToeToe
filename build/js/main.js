@@ -2,7 +2,7 @@
   'use strict';
 
   var currentPlayer = 'X';
-  var nextBoard;
+  var nextBoard = false;
   var boardState = {
     'topLeft': {},
     'topCenter': {},
@@ -21,17 +21,25 @@
       var innerPosition = $(this)[0].classList[1];
 
       if (nextBoard && (outerPosition !== nextBoard)) {
-        console.log('try again');
+        console.log('(nextBoard is true) and (outerPosition is not equal to nextBoard)');
+      } else if (boardState[outerPosition].boardComplete) {
+        console.log('(nextBoard is false or else not equal to outerPosition) AND (outerPosition board is complete)');
       } else if (boardState[outerPosition][innerPosition]) {
-        console.log('try again');
+        console.log('Inner Board is already marked there');
       } else {
+        console.log('(nextBoard is false or else not equal to outerPosition) AND (outerPosition board is not complete) AND (innerPosition is not already marked)');
         var myTurn = whosTurn();
 
         boardState[outerPosition][innerPosition] = myTurn;
         $('.outer.' + outerPosition).children('.' + innerPosition)[0].innerText = myTurn;
         boardWon(boardState[outerPosition], outerPosition);
+
+      }
+
+      if (boardState[outerPosition].boardComplete) {
+        nextBoard = false;
+      } else {
         nextBoard = innerPosition;
-        console.log('next move must be in ', innerPosition);
       }
 
     });
@@ -43,7 +51,6 @@
         bo.winner = bo.topLeft;
         bo.boardComplete = true;
         $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-
       }
       else if ((bo.middleLeft) && (bo.middleLeft === bo.middleCenter) && (bo.middleLeft === bo.middleRight)) {
         bo.winner = bo.middleLeft;
