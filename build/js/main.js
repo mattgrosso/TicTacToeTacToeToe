@@ -21,17 +21,17 @@
       var innerPosition = $(this)[0].classList[1];
 
       if (nextBoard && (outerPosition !== nextBoard)) {
-        console.log('(nextBoard is true) and (outerPosition is not equal to nextBoard)');
+        message('You need to play on a different board.');
       } else if (boardState[outerPosition].boardComplete) {
-        console.log('(nextBoard is false or else not equal to outerPosition) AND (outerPosition board is complete)');
+        message('That game is complete. Try a different board.');
       } else if (boardState[outerPosition][innerPosition]) {
-        console.log('Inner Board is already marked there');
+        message('Someone else already went there.');
       } else {
-        console.log('(nextBoard is false or else not equal to outerPosition) AND (outerPosition board is not complete) AND (innerPosition is not already marked)');
         var myTurn = whosTurn();
-
+        message(currentPlayer + " plays now.");
         boardState[outerPosition][innerPosition] = myTurn;
         $('.outer.' + outerPosition).children('.' + innerPosition)[0].innerText = myTurn;
+
         boardWon(boardState[outerPosition], outerPosition);
 
         whatBoardNext(innerPosition);
@@ -39,6 +39,9 @@
 
     });
 
+  function message(messageString) {
+    $('.message').text(messageString);
+  }
   //'bo' is a Board Object
   //'boPosition' is the outer position of bo
   function boardWon(bo, boPosition) {
