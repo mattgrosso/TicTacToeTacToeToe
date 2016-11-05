@@ -75,14 +75,14 @@ body{
   float: left;
 }
 
-.xWins{
+.XWins{
   display: none;
   position: absolute;
   line-height: 0.75;
   font-size: 13em;
 }
 
-.oWins{
+.OWins{
   display: none;
   position: absolute;
   line-height: 0.75;
@@ -97,10 +97,32 @@ body{
   background-color: rgba(150, 150, 150, 0.5);
 }
 
-.XWinner > .xWins{
+.XWinsTheGame{
+  display: none;
+  position: absolute;
+  color: white;
+  font-size: 40em;
+  background-color: black;
+  z-index: 1;
+  line-height: 0.75;
+  padding: 100px;
+}
+
+.OWinsTheGame{
+  display: none;
+  position: absolute;
+  color: white;
+  font-size: 40em;
+  background-color: black;
+  z-index: 1;
+  line-height: 0.75;
+  padding: 100px;
+}
+
+.XWinner > .XWins{
   display: block;
 }
 
-.OWinner > .oWins{
+.OWinner > .OWins{
   display: block;
 }

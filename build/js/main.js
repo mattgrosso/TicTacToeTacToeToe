@@ -90,28 +90,28 @@
 
   function gameWon(bo) {
     if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.topCenter.winner) && (bo.topLeft.winner === bo.topRight.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.topLeft.winner + 'WinsTheGame').show();
     }
     else if ((bo.middleLeft.boardComplete) && (bo.middleLeft.winner === bo.middleCenter.winner) && (bo.middleLeft.winner === bo.middleRight.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.middleLeft.winner + 'WinsTheGame').show();
     }
     else if ((bo.bottomLeft.boardComplete) && (bo.bottomLeft.winner === bo.bottomCenter.winner) && (bo.bottomLeft.winner === bo.bottomRight.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.bottomLeft.winner + 'WinsTheGame').show();
     }
     else if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.middleLeft.winner) && (bo.topLeft.winner === bo.bottomLeft.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.topLeft.winner + 'WinsTheGame').show();
     }
     else if ((bo.topCenter.boardComplete) && (bo.topCenter.winner === bo.middleCenter.winner) && (bo.topCenter.winner === bo.bottomCenter.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.topCenter.winner + 'WinsTheGame').show();
     }
     else if ((bo.topRight.boardComplete) && (bo.topRight.winner === bo.middleRight.winner) && (bo.topRight.winner === bo.bottomRight.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.topRight.winner + 'WinsTheGame').show();
     }
     else if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.middleCenter.winner) && (bo.topLeft.winner === bo.bottomRight.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.topLeft.winner + 'WinsTheGame').show();
     }
     else if ((bo.topRight.boardComplete) && (bo.topRight.winner === bo.middleCenter.winner) && (bo.topRight.winner === bo.bottomLeft.winner)) {
-      console.log(bo.topLeft.winner, " wins!");
+      $('.' + bo.topRight.winner + 'WinsTheGame').show();
     }
 
   }
