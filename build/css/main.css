@@ -99,6 +99,10 @@ body{
   float: left;
 }
 
+.nextBoard{
+  background-color: rgba(0, 100, 0, 0.25);
+}
+
 .XWins{
   display: none;
   position: absolute;

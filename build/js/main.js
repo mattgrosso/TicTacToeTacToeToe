@@ -134,8 +134,11 @@
   function whatBoardNext(innerPosition) {
     if (boardState[innerPosition].boardComplete) {
       nextBoard = false;
+      $('section').addClass('nextBoard');
     } else {
       nextBoard = innerPosition;
+      $('section').removeClass('nextBoard');
+      $('.outer.' + innerPosition).addClass('nextBoard');
     }
   }
 
