@@ -40,6 +40,10 @@
 
     });
 
+  $('.resetButton').on('click', function resetButton() {
+    playAgain();
+  });
+
   function message(messageString) {
     $('.message').text(messageString);
   }
@@ -135,5 +139,28 @@
     }
   }
 
+  function playAgain() {
+    currentPlayer = 'X';
+    nextBoard = false;
+    boardState = {
+      'topLeft': {},
+      'topCenter': {},
+      'topRight': {},
+      'middleLeft': {},
+      'middleCenter': {},
+      'middleRight': {},
+      'bottomLeft': {},
+      'bottomCenter': {},
+      'bottomRight': {}
+    };
+    $('div').text('');
+    $('.XWinsTheGame').hide().text('X');
+    $('.OWinsTheGame').hide().text('O');
+    $('.XWins').hide().text('X');
+    $('.OWins').hide().text('O');
+    $('.outer').removeClass('XWinner');
+    $('.outer').removeClass('OWinner');
+    message('Start Again. X Plays First.');
+  }
 
 })();
