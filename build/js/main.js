@@ -4,113 +4,135 @@
   var currentPlayer = 'X';
 
   var boardState = {
-    'top-left': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'topLeft': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'top-center': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'topCenter': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'top-right': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'topRight': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'middle-left': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'middleLeft': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'middle-center': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'middleCenter': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'middle-right': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'middleRight': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'bottom-left': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'bottomLeft': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'bottom-center': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'bottomCenter': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     },
-    'bottom-right': {
-      'top-left': null,
-      'top-center': null,
-      'top-right': null,
-      'middle-left': null,
-      'middle-center': null,
-      'middle-right': null,
-      'bottom-left': null,
-      'bottom-center': null,
-      'bottom-right': null
+    'bottomRight': {
+      'topLeft': null,
+      'topCenter': null,
+      'topRight': null,
+      'middleLeft': null,
+      'middleCenter': null,
+      'middleRight': null,
+      'bottomLeft': null,
+      'bottomCenter': null,
+      'bottomRight': null
     }
   };
 
+  //'bo' is a Board Object
+  function boardWon(bo) {
+    if ((bo.topLeft === bo.topCenter) && (bo.topLeft === bo.topRight)) {
+      bo.winner = bo.topLeft;
+      return bo.winner;
+    } else if (bo.middleLeft && bo.middleCenter && bo.middleRight) {
+      return 'win!';
+    } else if (bo.bottomLeft && bo.bottomCenter && bo.bottomRight) {
+      return 'win!';
+    } else if (bo.topLeft && bo.middleLeft && bo.bottomLeft) {
+      return 'win!';
+    } else if (bo.topCenter && bo.middleCenter && bo.bottomCenter) {
+      return 'win!';
+    } else if (bo.topRight && bo.middleRight && bo.bottomRight) {
+      return 'win!';
+    } else if (bo.topLeft && bo.middleCenter && bo.bottomRight) {
+      return 'win!';
+    } else if (bo.bottomLeft && bo.middleCenter && bo.topRight) {
+      return 'win!';
+    }
+  }
+
   function whosTurn() {
-    if(currentPlayer === 'X'){
-      currentPlayer = 'O';
+    if(currentPlayer === true){
+      currentPlayer = false;
       return 'X';
     } else {
-      currentPlayer = 'X';
+      currentPlayer = true;
       return 'O';
     }
   }
@@ -120,8 +142,11 @@
       var outerPosition = $(this).parent()[0].classList[1];
       var innerPosition = $(this)[0].classList[1];
       var myTurn = whosTurn();
+
       boardState[outerPosition][innerPosition] = myTurn;
       $('.outer.' + outerPosition).children('.' + innerPosition)[0].innerText = myTurn;
+
+
     });
 
 })();

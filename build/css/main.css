@@ -17,50 +17,50 @@ body{
   height: 50px;
 }
 
-.top-left{
+.topLeft{
   border-top: none;
-  border-left: none;
+  borderLeft: none;
   float: left;
 }
 
-.top-center{
+.topCenter{
   border-top: none;
   float: left;
 }
 
-.top-right{
+.topRight{
   border-top: none;
-  border-right: none;
+  borderRight: none;
   float: left;
 }
 
-.middle-left{
-  border-left: none;
+.middleLeft{
+  borderLeft: none;
   float: left;
 }
 
-.middle-center{
+.middleCenter{
   float: left;
 }
 
-.middle-right{
-  border-right: none;
+.middleRight{
+  borderRight: none;
   float: left;
 }
 
-.bottom-left{
-  border-left: none;
+.bottomLeft{
+  borderLeft: none;
   border-bottom: none;
   float: left;
 }
 
-.bottom-center{
+.bottomCenter{
   border-bottom: none;
   float: left;
 }
 
-.bottom-right{
-  border-right: none;
+.bottomRight{
+  borderRight: none;
   border-bottom: none;
   float: left;
 }
