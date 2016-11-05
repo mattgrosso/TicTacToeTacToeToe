@@ -33,6 +33,7 @@
         $('.outer.' + outerPosition).children('.' + innerPosition)[0].innerText = myTurn;
 
         boardWon(boardState[outerPosition], outerPosition);
+        gameWon(boardState);
 
         whatBoardNext(innerPosition);
       }
@@ -85,6 +86,34 @@
       bo.boardComplete = true;
       $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
     }
+  }
+
+  function gameWon(bo) {
+    if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.topCenter.winner) && (bo.topLeft.winner === bo.topRight.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+    else if ((bo.middleLeft.boardComplete) && (bo.middleLeft.winner === bo.middleCenter.winner) && (bo.middleLeft.winner === bo.middleRight.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+    else if ((bo.bottomLeft.boardComplete) && (bo.bottomLeft.winner === bo.bottomCenter.winner) && (bo.bottomLeft.winner === bo.bottomRight.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+    else if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.middleLeft.winner) && (bo.topLeft.winner === bo.bottomLeft.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+    else if ((bo.topCenter.boardComplete) && (bo.topCenter.winner === bo.middleCenter.winner) && (bo.topCenter.winner === bo.bottomCenter.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+    else if ((bo.topRight.boardComplete) && (bo.topRight.winner === bo.middleRight.winner) && (bo.topRight.winner === bo.bottomRight.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+    else if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.middleCenter.winner) && (bo.topLeft.winner === bo.bottomRight.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+    else if ((bo.topRight.boardComplete) && (bo.topRight.winner === bo.middleCenter.winner) && (bo.topRight.winner === bo.bottomLeft.winner)) {
+      console.log(bo.topLeft.winner, " wins!");
+    }
+
   }
 
   function whosTurn() {
