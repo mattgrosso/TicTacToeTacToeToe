@@ -19,7 +19,7 @@ body{
 
 .topLeft{
   border-top: none;
-  borderLeft: none;
+  border-left: none;
   float: left;
 }
 
@@ -30,12 +30,12 @@ body{
 
 .topRight{
   border-top: none;
-  borderRight: none;
+  border-right: none;
   float: left;
 }
 
 .middleLeft{
-  borderLeft: none;
+  border-left: none;
   float: left;
 }
 
@@ -44,12 +44,12 @@ body{
 }
 
 .middleRight{
-  borderRight: none;
+  border-right: none;
   float: left;
 }
 
 .bottomLeft{
-  borderLeft: none;
+  border-left: none;
   border-bottom: none;
   float: left;
 }
@@ -60,7 +60,7 @@ body{
 }
 
 .bottomRight{
-  borderRight: none;
+  border-right: none;
   border-bottom: none;
   float: left;
 }
