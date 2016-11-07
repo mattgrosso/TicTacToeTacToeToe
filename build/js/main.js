@@ -47,6 +47,7 @@
   function message(messageString) {
     $('.message').text(messageString);
   }
+
   //'bo' is a Board Object
   //'boPosition' is the outer position of bo
   function boardWon(bo, boPosition) {
@@ -159,10 +160,11 @@
     $('div').text('');
     $('.XWinsTheGame').hide().text('X');
     $('.OWinsTheGame').hide().text('O');
-    $('.XWins').hide().text('X');
-    $('.OWins').hide().text('O');
+    $('.XWins').text('X');
+    $('.OWins').text('O');
     $('.outer').removeClass('XWinner');
     $('.outer').removeClass('OWinner');
+    $('section').removeClass('nextBoard');
     message('Start Again. X Plays First.');
   }
 
