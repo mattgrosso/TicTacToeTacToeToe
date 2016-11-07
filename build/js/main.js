@@ -12,7 +12,8 @@
     'middleRight': {},
     'bottomLeft': {},
     'bottomCenter': {},
-    'bottomRight': {}
+    'bottomRight': {},
+    'catsCount': 0
   };
 
   $('div')
@@ -46,6 +47,11 @@
 
   $('.resetButton').on('click', function resetButton() {
     playAgain();
+  });
+
+  $('.logButton').on('click', function logButton() {
+    console.log(boardState);
+    console.log(Object.keys(boardState.topLeft).length);
   });
 
   function message(messageString) {
@@ -95,6 +101,12 @@
       bo.boardComplete = true;
       $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
     }
+    else if (Object.keys(boardState[boPosition]).length === 9) {
+      bo.winner = 'C';
+      bo.boardComplete = true;
+      boardState.catsCount++;
+      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
+    }
   }
 
   function gameWon(bo) {
@@ -121,6 +133,9 @@
     }
     else if ((bo.topRight.boardComplete) && (bo.topRight.winner === bo.middleCenter.winner) && (bo.topRight.winner === bo.bottomLeft.winner)) {
       $('.' + bo.topRight.winner + 'WinsTheGame').show();
+    }
+    else if (boardState.catsCount === 9) {
+      $('.CWinsTheGame').show();
     }
 
   }
@@ -164,10 +179,13 @@
     $('div').text('');
     $('.XWinsTheGame').hide().text('X');
     $('.OWinsTheGame').hide().text('O');
+    $('.CWinsTheGame').hide().text('C');
     $('.XWins').text('X');
     $('.OWins').text('O');
+    $('.CWins').text('C');
     $('.outer').removeClass('XWinner');
     $('.outer').removeClass('OWinner');
+    $('.outer').removeClass('CWinner');
     $('section').removeClass('nextBoard');
     message('Start Again. X Plays First.');
   }

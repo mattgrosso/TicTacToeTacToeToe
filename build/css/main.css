@@ -33,6 +33,11 @@ body{
   color: black;
 }
 
+.gameboard{
+  width: 615px;
+  height: 607px;
+}
+
 .outer{
   position: relative;
   box-sizing: border-box;
@@ -117,6 +122,13 @@ body{
   font-size: 13em;
 }
 
+.CWins{
+  display: none;
+  position: absolute;
+  line-height: 0.75;
+  font-size: 13em;
+}
+
 .XWinner{
   background-color: rgba(150, 150, 150, 0.5);
 }
@@ -125,7 +137,22 @@ body{
   background-color: rgba(150, 150, 150, 0.5);
 }
 
+.CWinner{
+  background-color: rgba(150, 150, 150, 0.5);
+}
+
 .XWinsTheGame{
+  display: none;
+  position: absolute;
+  color: white;
+  font-size: 40em;
+  background-color: black;
+  z-index: 1;
+  line-height: 0.75;
+  padding: 100px;
+}
+
+.OWinsTheGame{
   display: none;
   position: absolute;
   color: white;
@@ -152,6 +179,10 @@ body{
 }
 
 .OWinner > .OWins{
+  display: block;
+}
+
+.CWinner > .CWins{
   display: block;
 }
 
