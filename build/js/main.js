@@ -22,6 +22,10 @@
 
       if (nextBoard && (outerPosition !== nextBoard)) {
         message('You need to play on a different board.');
+        $('.nextBoard').append($('<aside>Play on this board</aside>').addClass('thisOne'));
+        setTimeout(function () {
+          $('.thisOne').remove();
+        }, 750);
       } else if (boardState[outerPosition].boardComplete) {
         message('That game is complete. Try a different board.');
       } else if (boardState[outerPosition][innerPosition]) {

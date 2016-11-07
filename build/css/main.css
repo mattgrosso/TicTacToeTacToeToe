@@ -154,3 +154,10 @@ body{
 .OWinner > .OWins{
   display: block;
 }
+
+.thisOne{
+  position: absolute;
+  color: red;
+  top: 2px;
+  left: 50px;
+}
