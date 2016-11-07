@@ -1,0 +1,25 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattgrosso/TicTacToeTacToeToe.git"
+  },
+  "author": "Matt Grosso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattgrosso/TicTacToeTacToeToe/issues"
+  },
+  "homepage": "https://github.com/mattgrosso/TicTacToeTacToeToe#readme",
+  "dependencies": {
+  "harp": "^0.20.3"
+}
+}
