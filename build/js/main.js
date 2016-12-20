@@ -1,6 +1,10 @@
 (function() {
   'use strict';
 
+  var socket = io({
+    transports: ['websocket']
+  });
+
   var currentPlayer = 'X';
   var nextBoard = false;
   var boardState = {
@@ -16,10 +20,15 @@
     'catsCount': 0
   };
 
+  socket.on('user made move', function(data) {
+    SaveandDisplayMove(data.innerPosition, data.outerPosition);
+  })
+
   $('div')
     .on('click', function markASquare() {
       var outerPosition = $(this).parent()[0].classList[1];
       var innerPosition = $(this)[0].classList[1];
+
 
       if (nextBoard && (outerPosition !== nextBoard)) {
         message('You need to play on a different board.');
@@ -32,18 +41,25 @@
       } else if (boardState[outerPosition][innerPosition]) {
         message('Someone else already went there.');
       } else {
-        var myTurn = whosTurn();
-        message(currentPlayer + " plays now.");
-        boardState[outerPosition][innerPosition] = myTurn;
-        $('.outer.' + outerPosition).children('.' + innerPosition)[0].innerText = myTurn;
-
-        boardWon(boardState[outerPosition], outerPosition);
-        gameWon(boardState);
-
-        whatBoardNext(innerPosition);
+        socket.emit('user made move', {
+          outerPosition: outerPosition,
+          innerPosition: innerPosition
+        })
       }
 
     });
+
+  function SaveandDisplayMove(innerPosition, outerPosition) {
+    var myTurn = whosTurn();
+    message(currentPlayer + " plays now.");
+    boardState[outerPosition][innerPosition] = myTurn;
+    $('.outer.' + outerPosition).children('.' + innerPosition)[0].innerText = myTurn;
+
+    boardWon(boardState[outerPosition], outerPosition);
+    gameWon(boardState);
+
+    whatBoardNext(innerPosition);
+  }
 
   $('.resetButton').on('click', function resetButton() {
     playAgain();
