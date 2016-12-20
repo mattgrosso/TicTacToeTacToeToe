@@ -1,1 +1,1 @@
-web: harp server ./build/ --port $PORT
+web: node server/server.js
