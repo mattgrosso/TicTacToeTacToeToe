@@ -5,6 +5,24 @@
     transports: ['websocket']
   });
 
+  socket.on('connected', function handleConnection(data) {
+    console.log("Connected to Server", data);
+  });
+
+  socket.on('game_start', function handleGameStart(game) {
+    console.log(game);
+    boardState = game.boardState;
+  })
+
+  socket.on('game_update', function(board) {
+    saveAndDisplayMove(data.innerPosition, data.outerPosition);
+  })
+
+  $('.new-game-button').on('click', function startNewGame() {
+    $('.new-game').hide();
+    socket.emit("i_want_to_play_right_meow");
+  })
+
   var currentPlayer = 'X';
   var nextBoard = false;
   var boardState = {
@@ -19,10 +37,6 @@
     'bottomRight': {},
     'catsCount': 0
   };
-
-  socket.on('user made move', function(data) {
-    SaveandDisplayMove(data.innerPosition, data.outerPosition);
-  })
 
   $('div')
     .on('click', function markASquare() {
@@ -41,15 +55,19 @@
       } else if (boardState[outerPosition][innerPosition]) {
         message('Someone else already went there.');
       } else {
-        socket.emit('user made move', {
+        socket.emit('game_update', {
           outerPosition: outerPosition,
           innerPosition: innerPosition
         })
       }
-
     });
 
-  function SaveandDisplayMove(innerPosition, outerPosition) {
+
+  function render(game) {
+
+  }
+
+  function saveAndDisplayMove(innerPosition, outerPosition) {
     var myTurn = whosTurn();
     message(currentPlayer + " plays now.");
     boardState[outerPosition][innerPosition] = myTurn;

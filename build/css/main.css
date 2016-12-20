@@ -34,6 +34,7 @@ body{
 }
 
 .gameboard{
+  display: none;
   width: 615px;
   height: 607px;
 }
@@ -191,4 +192,8 @@ body{
   color: red;
   top: 2px;
   left: 50px;
+}
+
+.new-game{
+  display: block;
 }
