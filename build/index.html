@@ -5,7 +5,6 @@
     <title>Tic Tac Toe Tac Toe Toe</title>
     <link rel='stylesheet' href='/css/main.css'>
   </head>
-
   <body>
     <button class="resetButton" type="button" name="button">Reset and Play Again!</button>
     <h2 class="message">Welcome to Tic Tac Toe Tac Toe Toe</h2>
@@ -144,6 +143,18 @@
     </section>
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src='/js/main.js'></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+      $('div').on('click', function socketSubmit() {
+        socket.emit('user clicked', 'this is a click')
+        return false;
+      });
+      socket.on('user clicked', function(msg){
+        console.log('this worked the msg was: ', msg);;
+      });
+    </script>
+
 
   </body>
 </html>

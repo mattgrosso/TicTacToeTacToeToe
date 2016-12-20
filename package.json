@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/mattgrosso/TicTacToeTacToeToe#readme",
   "dependencies": {
-  "harp": "^0.20.3"
-}
+    "express": "^4.10.2",
+    "harp": "^0.20.3",
+    "socket.io": "^1.5.1"
+  }
 }
