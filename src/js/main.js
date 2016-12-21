@@ -26,7 +26,8 @@
  * to modify the user's board based on current game state.
  */
   socket.on('game_update', function(board) {
-    saveAndDisplayMove(board.innerPosition, board.outerPosition);
+    // saveAndDisplayMove(board.innerPosition, board.outerPosition);
+    console.log(board);
   });
 
 /**
@@ -130,7 +131,6 @@
  */
   $('div')
     .on('click', function markASquare() {
-      console.log('This is a flag');
       var outerPosition = $(this).parent()[0].classList[1];
       var innerPosition = $(this)[0].classList[1];
 
@@ -145,6 +145,7 @@
       } else if (boardState[outerPosition][innerPosition]) {
         message('Someone else already went there.');
       } else {
+        console.log('sending move emit');
         socket.emit('game_update', {
           outerPosition: outerPosition,
           innerPosition: innerPosition
@@ -222,7 +223,6 @@
     gameWon(boardState);
 
     whatBoardNext(innerPosition);
-    console.log(boardState);
   }
 
   $('.resetButton').on('click', function resetButton() {

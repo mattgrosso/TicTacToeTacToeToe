@@ -14,7 +14,7 @@ app.use(express.static('build'));
 
 io.on('connection', function (socket) {
   console.log('connection established', socket.id);
-  socket.emit("connected", {});
+  socket.emit('connected', {});
 
   socket.on('disconnect', function () {
     console.log('connection lost');
@@ -26,6 +26,8 @@ io.on('connection', function (socket) {
 
     if (pendingPlayers.length >= 2) {
       var playersForGame = pendingPlayers.splice(0,2);
+
+      // Create a new game.
       var game = new Game(playersForGame);
 
       // Subscribe the selected players to the new game room.
@@ -36,6 +38,9 @@ io.on('connection', function (socket) {
 
       socket.on('game_update', function (move) {
         console.log(move);
+        console.log(socket.id);
+        var thisPlayer = socket.id
+        applyMove(game.boardState, move, game.players[thisPlayer])
         io.to(game.id).emit('game_update', game);
       });
     }
@@ -45,12 +50,12 @@ io.on('connection', function (socket) {
 function Game(players) {
   return {
     id: uuid.v4(),
-    currentPlayer: "X",
+    currentPlayer: 'X',
     nextBoard: false,
-    players: [
-      { id: players[0].id, symbol: "X" },
-      { id: players[1].id, symbol: "O" }
-    ],
+    players: {
+      [players[0].id]: 'X',
+      [players[1].id]: 'O'
+    },
     boardState: {
       'topLeft': {},
       'topCenter': {},
@@ -66,6 +71,15 @@ function Game(players) {
   };
 }
 
+// TODO: This is where I am right now. I've got the sockets connected to both
+//       players but only one of them is hitting the 'socket.on('game_update')'
+//       I'm not sure what's going on but I need to sleep so I'll start from here
+//       as soon as I can.
+function applyMove(boardstate, move, playerSymbol) {
+  console.log(boardstate, move, playerSymbol);
+  // var newBoard = boardstate;
+  // boardState[move.outerPosition][move.innerPosition] = playerSymbol;
+}
 
 http.listen(3000, function () {
   console.log('Example app running on port 3000!');
