@@ -70,5 +70,3 @@ function Game(players) {
 http.listen(3000, function () {
   console.log('Example app running on port 3000!');
 });
-
-//# sourceMappingURL=app.js.map

@@ -1,15 +1,65 @@
-body{
-  width: 650px;
-  margin: 40px auto;
-}
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
 
-.message{
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+body {
+  width: 650px;
+  margin: 40px auto; }
+
+.test-button {
+  position: fixed;
+  bottom: 75px;
+  right: 75px; }
+
+.message {
   text-align: center;
   margin: 0;
-  padding: 0px 0px 40px 0px;
-}
+  padding: 0px 0px 40px 0px; }
 
-.resetButton{
+.resetButton {
   display: block;
   float: right;
   box-sizing: border-box;
@@ -21,128 +71,105 @@ body{
   border: 2px solid black;
   border-radius: 2px;
   margin-left: 50px;
-  margin-right: -70px;
-}
+  margin-right: -70px; }
 
-.resetButton:focus{
-  outline: 0;
-}
+.resetButton:focus {
+  outline: 0; }
 
-.resetButton:active{
+.resetButton:active {
   background-color: white;
-  color: black;
-}
+  color: black; }
 
-.gameboard{
-  display: none;
+.gameboard {
   width: 615px;
-  height: 607px;
-}
+  height: 607px; }
 
-.outer{
+.outer {
   position: relative;
   box-sizing: border-box;
   border: 2px solid black;
   max-width: 205px;
-  padding: 25px;
-}
+  padding: 25px; }
 
-.inner{
+.inner {
   box-sizing: border-box;
   border: 1px solid black;
   width: 50px;
   height: 50px;
   text-align: center;
   font-size: 2em;
-  padding-top: 5px;
-}
+  padding-top: 5px; }
 
-.topLeft{
+.topLeft {
   border-top: none;
   border-left: none;
-  float: left;
-}
+  float: left; }
 
-.topCenter{
+.topCenter {
   border-top: none;
-  float: left;
-}
+  float: left; }
 
-.topRight{
+.topRight {
   border-top: none;
   border-right: none;
-  float: left;
-}
+  float: left; }
 
-.middleLeft{
+.middleLeft {
   border-left: none;
-  float: left;
-}
+  float: left; }
 
-.middleCenter{
-  float: left;
-}
+.middleCenter {
+  float: left; }
 
-.middleRight{
+.middleRight {
   border-right: none;
-  float: left;
-}
+  float: left; }
 
-.bottomLeft{
+.bottomLeft {
   border-left: none;
   border-bottom: none;
-  float: left;
-}
+  float: left; }
 
-.bottomCenter{
+.bottomCenter {
   border-bottom: none;
-  float: left;
-}
+  float: left; }
 
-.bottomRight{
+.bottomRight {
   border-right: none;
   border-bottom: none;
-  float: left;
-}
+  float: left; }
 
-.nextBoard{
-  background-color: rgba(0, 100, 0, 0.25);
-}
+.nextBoard {
+  background-color: rgba(0, 100, 0, 0.25); }
 
-.XWins{
+.XWins {
   display: none;
   position: absolute;
   line-height: 0.75;
-  font-size: 13em;
-}
+  font-size: 13em; }
 
-.OWins{
+.OWins {
   display: none;
   position: absolute;
   line-height: 0.75;
-  font-size: 13em;
-}
+  font-size: 13em; }
 
-.CWins{
+.CWins {
   display: none;
   position: absolute;
   line-height: 0.75;
-  font-size: 13em;
-}
+  font-size: 13em; }
 
-.XWinner{
-  background-color: rgba(150, 150, 150, 0.5);
-}
+.XWinner {
+  background-color: rgba(150, 150, 150, 0.5); }
 
-.OWinner{
-  background-color: rgba(150, 150, 150, 0.5);
-}
+.OWinner {
+  background-color: rgba(150, 150, 150, 0.5); }
 
-.CWinner{
-  background-color: rgba(150, 150, 150, 0.5);
-}
+.CWinner {
+  background-color: rgba(150, 150, 150, 0.5); }
 
-.XWinsTheGame{
+.XWinsTheGame {
   display: none;
   position: absolute;
   color: white;
@@ -150,10 +177,9 @@ body{
   background-color: black;
   z-index: 1;
   line-height: 0.75;
-  padding: 100px;
-}
+  padding: 100px; }
 
-.OWinsTheGame{
+.OWinsTheGame {
   display: none;
   position: absolute;
   color: white;
@@ -161,10 +187,9 @@ body{
   background-color: black;
   z-index: 1;
   line-height: 0.75;
-  padding: 100px;
-}
+  padding: 100px; }
 
-.CWinsTheGame{
+.CWinsTheGame {
   display: none;
   position: absolute;
   color: white;
@@ -172,28 +197,24 @@ body{
   background-color: black;
   z-index: 1;
   line-height: 0.75;
-  padding: 100px;
-}
+  padding: 100px; }
 
-.XWinner > .XWins{
-  display: block;
-}
+.XWinner > .XWins {
+  display: block; }
 
-.OWinner > .OWins{
-  display: block;
-}
+.OWinner > .OWins {
+  display: block; }
 
-.CWinner > .CWins{
-  display: block;
-}
+.CWinner > .CWins {
+  display: block; }
 
-.thisOne{
+.thisOne {
   position: absolute;
   color: red;
   top: 2px;
-  left: 50px;
-}
+  left: 50px; }
 
-.new-game{
-  display: block;
-}
+.new-game {
+  display: block; }
+
+/*# sourceMappingURL=main.css.map */

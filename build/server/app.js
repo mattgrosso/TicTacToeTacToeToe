@@ -10,7 +10,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.static('build'));
+app.use(express.static('???'));
 
 io.on('connection', function (socket) {
   console.log('connection established', socket.id);

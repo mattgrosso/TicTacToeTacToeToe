@@ -1,0 +1,205 @@
+body{
+  width: 650px;
+  margin: 40px auto;
+}
+
+.test-button{
+  position: fixed;
+  bottom: 75px;
+  right: 75px;
+}
+
+.message{
+  text-align: center;
+  margin: 0;
+  padding: 0px 0px 40px 0px;
+}
+
+.resetButton{
+  display: block;
+  float: right;
+  box-sizing: border-box;
+  background: none;
+  font-size: 1em;
+  color: white;
+  background-color: black;
+  padding: 5px 20px;
+  border: 2px solid black;
+  border-radius: 2px;
+  margin-left: 50px;
+  margin-right: -70px;
+}
+
+.resetButton:focus{
+  outline: 0;
+}
+
+.resetButton:active{
+  background-color: white;
+  color: black;
+}
+
+.gameboard{
+  // display: none;
+  width: 615px;
+  height: 607px;
+}
+
+.outer{
+  position: relative;
+  box-sizing: border-box;
+  border: 2px solid black;
+  max-width: 205px;
+  padding: 25px;
+}
+
+.inner{
+  box-sizing: border-box;
+  border: 1px solid black;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 2em;
+  padding-top: 5px;
+}
+
+.topLeft{
+  border-top: none;
+  border-left: none;
+  float: left;
+}
+
+.topCenter{
+  border-top: none;
+  float: left;
+}
+
+.topRight{
+  border-top: none;
+  border-right: none;
+  float: left;
+}
+
+.middleLeft{
+  border-left: none;
+  float: left;
+}
+
+.middleCenter{
+  float: left;
+}
+
+.middleRight{
+  border-right: none;
+  float: left;
+}
+
+.bottomLeft{
+  border-left: none;
+  border-bottom: none;
+  float: left;
+}
+
+.bottomCenter{
+  border-bottom: none;
+  float: left;
+}
+
+.bottomRight{
+  border-right: none;
+  border-bottom: none;
+  float: left;
+}
+
+.nextBoard{
+  background-color: rgba(0, 100, 0, 0.25);
+}
+
+.XWins{
+  display: none;
+  position: absolute;
+  line-height: 0.75;
+  font-size: 13em;
+}
+
+.OWins{
+  display: none;
+  position: absolute;
+  line-height: 0.75;
+  font-size: 13em;
+}
+
+.CWins{
+  display: none;
+  position: absolute;
+  line-height: 0.75;
+  font-size: 13em;
+}
+
+.XWinner{
+  background-color: rgba(150, 150, 150, 0.5);
+}
+
+.OWinner{
+  background-color: rgba(150, 150, 150, 0.5);
+}
+
+.CWinner{
+  background-color: rgba(150, 150, 150, 0.5);
+}
+
+.XWinsTheGame{
+  display: none;
+  position: absolute;
+  color: white;
+  font-size: 40em;
+  background-color: black;
+  z-index: 1;
+  line-height: 0.75;
+  padding: 100px;
+}
+
+.OWinsTheGame{
+  display: none;
+  position: absolute;
+  color: white;
+  font-size: 40em;
+  background-color: black;
+  z-index: 1;
+  line-height: 0.75;
+  padding: 100px;
+}
+
+.CWinsTheGame{
+  display: none;
+  position: absolute;
+  color: white;
+  font-size: 40em;
+  background-color: black;
+  z-index: 1;
+  line-height: 0.75;
+  padding: 100px;
+}
+
+.XWinner > .XWins{
+  display: block;
+}
+
+.OWinner > .OWins{
+  display: block;
+}
+
+.CWinner > .CWins{
+  display: block;
+}
+
+.thisOne{
+  position: absolute;
+  color: red;
+  top: 2px;
+  left: 50px;
+}
+
+.new-game{
+  display: block;
+}

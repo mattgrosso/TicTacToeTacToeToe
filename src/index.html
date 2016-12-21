@@ -4,10 +4,25 @@
     <meta charset="utf-8">
     <title>Tic Tac Toe Tac Toe Toe</title>
     <link rel='stylesheet' href='/css/main.css'>
-
   </head>
   <body>
+    <button class="resetButton" type="button" name="button">Reset and Play Again!</button>
+    <h2 class="message">Welcome to Tic Tac Toe Tac Toe Toe</h2>
+
+    <button class="test-button" type="button" name="button">test</button>
+    <section class="new-game">
+      <button class="new-game-button" type="button" name="button">Start Game</button>
+    </section>
+
+    <section class="gameboard">
+
+      <div class="XWinsTheGame">X</div>
+      <div class="OWinsTheGame">O</div>
+      <div class="CWinsTheGame">C</div>
       <section class="outer topLeft">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -19,6 +34,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer topCenter">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -30,6 +48,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer topRight">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -41,6 +62,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer middleLeft">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -52,6 +76,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer middleCenter">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -63,6 +90,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer middleRight">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -74,6 +104,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer bottomLeft">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -85,6 +118,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer bottomCenter">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -96,6 +132,9 @@
         <div class="inner bottomRight"></div>
       </section>
       <section class="outer bottomRight">
+        <div class="XWins">X</div>
+        <div class="OWins">O</div>
+        <div class="CWins">C</div>
         <div class="inner topLeft"></div>
         <div class="inner topCenter"></div>
         <div class="inner topRight"></div>
@@ -106,5 +145,15 @@
         <div class="inner bottomCenter"></div>
         <div class="inner bottomRight"></div>
       </section>
+
+    </section>
+
+
+
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='/js/main.js'></script>
+
+
   </body>
 </html>
