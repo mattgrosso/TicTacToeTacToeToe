@@ -40,6 +40,7 @@ io.on('connection', function (socket) {
 
       socket.on('game_update', function (move) {
         console.log(move);
+        game.saveMove(move);
         io.to(game.id).emit('game_update', game);
       });
     }
@@ -66,6 +67,80 @@ function Game(players) {
       'bottomCenter': {},
       'bottomRight': {},
       'catsCount': 0
+    },
+
+    saveMove: function saveMove(move) {
+        var innerPosition = move.innerPosition;
+        var outerPosition = move.outerPosition;
+
+        this.boardState[outerPosition][innerPosition] = this.currentPlayer;
+        this.boardWon(this.boardState[outerPosition], outerPosition);
+
+        this.whatBoardNext(innerPosition);
+        this.togglePlayer();
+      },
+
+
+    //'bo' is a Board Object
+    //'boPosition' is the outer position of bo
+    boardWon: function boardWon(bo, boPosition) {
+      var boardState = this.boardState;
+
+      if ((bo.topLeft) && (bo.topLeft === bo.topCenter) && (bo.topLeft === bo.topRight)) {
+        bo.winner = bo.topLeft;
+        bo.boardComplete = true;
+      }
+      else if ((bo.middleLeft) && (bo.middleLeft === bo.middleCenter) && (bo.middleLeft === bo.middleRight)) {
+        bo.winner = bo.middleLeft;
+        bo.boardComplete = true;
+      }
+      else if ((bo.bottomLeft) && (bo.bottomLeft === bo.bottomCenter) && (bo.bottomLeft === bo.bottomRight)) {
+        bo.winner = bo.bottomLeft;
+        bo.boardComplete = true;
+      }
+      else if ((bo.topLeft) && (bo.topLeft === bo.middleLeft) && (bo.topLeft === bo.bottomLeft)) {
+        bo.winner = bo.topLeft;
+        bo.boardComplete = true;
+      }
+      else if ((bo.topCenter) && (bo.topCenter === bo.middleCenter) && (bo.topCenter === bo.bottomCenter)) {
+        bo.winner = bo.topCenter;
+        bo.boardComplete = true;
+      }
+      else if ((bo.topRight) && (bo.topRight === bo.middleRight) && (bo.topRight === bo.bottomRight)) {
+        bo.winner = bo.topRight;
+        bo.boardComplete = true;
+      }
+      else if ((bo.topLeft) && (bo.topLeft === bo.middleCenter) && (bo.topLeft === bo.bottomRight)) {
+        bo.winner = bo.topLeft;
+        bo.boardComplete = true;
+      }
+      else if ((bo.topRight) && (bo.topRight === bo.middleCenter) && (bo.topRight === bo.bottomLeft)) {
+        bo.winner = bo.topRight;
+        bo.boardComplete = true;
+      }
+      else if (Object.keys(boardState[boPosition]).length === 9) {
+        bo.winner = 'C';
+        bo.boardComplete = true;
+        boardState.catsCount++;
+      }
+    },
+
+    togglePlayer: function togglePlayer() {
+      if(this.currentPlayer === 'X'){
+        this.currentPlayer = 'O';
+      } else {
+        this.currentPlayer = 'X';
+      }
+    },
+
+    // 'innerPosition' is the section of the smaller board that was just clicked on
+    whatBoardNext: function whatBoardNext(innerPosition) {
+      var boardState = this.boardState;
+      if (boardState[innerPosition].boardComplete) {
+        this.nextBoard = false;
+      } else {
+        this.nextBoard = innerPosition;
+      }
     }
   };
 }
