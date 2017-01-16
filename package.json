@@ -2,7 +2,7 @@
   "name": "tictactoe",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/app.js",
   "directories": {
     "test": "test"
   },
@@ -34,5 +34,8 @@
     "grunt-contrib-watch": "^1.0.0",
     "jit-grunt": "^0.10.0",
     "time-grunt": "^1.4.0"
+  },
+  "engines": {
+    "node": "7.2.0"
   }
 }
