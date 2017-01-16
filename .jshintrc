@@ -92,7 +92,6 @@
       "chai": true,
       "module": true,
       "inject": true,
-      "require": true,
-      "io": true
+      "require": true
       }        // additional predefined global variables
 }

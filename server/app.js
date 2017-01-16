@@ -3,6 +3,7 @@ var uuid = require('node-uuid');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+
 var pendingPlayers = [];
 
 app.use(function (req, res, next) {
@@ -17,7 +18,7 @@ io.on('connection', function (socket) {
   socket.emit("connected", {});
 
   socket.on('disconnect', function () {
-    console.log('connection lost');
+    console.log(socket.id, 'connection lost');
   });
 
   socket.on('i_want_to_play_right_meow', function handleLobby() {
@@ -28,9 +29,12 @@ io.on('connection', function (socket) {
       var playersForGame = pendingPlayers.splice(0,2);
       var game = new Game(playersForGame);
 
+      var playerOneSocket = playersForGame[0];
+      var playerTwoSocket = playersForGame[1];
+
       // Subscribe the selected players to the new game room.
-      playersForGame[0].join(game.id);
-      playersForGame[1].join(game.id);
+      playerOneSocket.join(game.id);
+      playerTwoSocket.join(game.id);
 
       io.to(game.id).emit("game_start", game );
 

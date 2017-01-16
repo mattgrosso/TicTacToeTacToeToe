@@ -1,4 +1,4 @@
-(function() {
+(function(io) {
   'use strict';
 
   var socket = io({
@@ -162,7 +162,6 @@
  * symbol.
  * How do I do it now?
  * How can I grab the appropriate div based on the info in the boardstate?
- * When I
  */
   function updateBoardDisplay(boardstate) {
     var arrayOfProperties = [
@@ -361,6 +360,6 @@
     message('Start Again. X Plays First.');
   }
 
-})();
+})(io);
 
 //# sourceMappingURL=main.js.map
