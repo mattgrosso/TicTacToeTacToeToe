@@ -6,6 +6,7 @@
   });
 
   var game;
+  var $ui = $('#gameboard-display');
 
 /**
  * This listens for the 'connected' event and just logs what the server says.
@@ -116,8 +117,8 @@
  * sends the outerPosition and innerPosition to the server. We can call this a
  * 'move'.
  */
-  $('div')
-    .on('click', function markASquare() {
+  $ui
+    .on('click', 'div' ,function markASquare() {
       var outerPosition = $(this).parent()[0].classList[1];
       var innerPosition = $(this)[0].classList[1];
 
@@ -128,9 +129,9 @@
 
       if (game.nextBoard && (outerPosition !== game.nextBoard)) {
         message('You need to play on a different board.');
-        $('.nextBoard').append($('<aside>Play on this board</aside>').addClass('thisOne'));
+        $ui.find('.nextBoard').append($('<aside>Play on this board</aside>').addClass('thisOne'));
         setTimeout(function () {
-          $('.thisOne').remove();
+          $ui.find('.thisOne').remove();
         }, 750);
       } else if (game.boardState[outerPosition].boardComplete) {
         message('That game is complete. Try a different board.');
@@ -149,8 +150,8 @@
   function updateDisplay(game) {
     console.log(socket.id);
     console.log(game);
-    displayNextBoard( game );
     updateBoardDisplay( game.boardState );
+    displayNextBoard( game );
     console.log(me());
     if (myTurn()) {
       message("Your Turn");
@@ -178,6 +179,10 @@
  * How can I grab the appropriate div based on the info in the boardstate?
  */
   function updateBoardDisplay(boardstate) {
+    var template = $('#gameboard-template').clone();
+    $ui.html(template.html());
+    template = null;
+
     var arrayOfProperties = [
       Object.getOwnPropertyNames(boardstate.topLeft),
       Object.getOwnPropertyNames(boardstate.topCenter),
@@ -210,10 +215,10 @@
           return;
         }
         else if (each === 'winner') {
-          $('.outer.' + eachPropertyArray[0]).addClass(boardstate[eachPropertyArray[0]].winner + 'Winner');
+          $ui.find('.outer.' + eachPropertyArray[0]).addClass(boardstate[eachPropertyArray[0]].winner + 'Winner');
         }
         else {
-          $('.outer.' + eachPropertyArray[0]).children('.' + each)[0].innerText = boardstate[eachPropertyArray[0]][each];
+          $ui.find('.outer.' + eachPropertyArray[0]).children('.' + each)[0].innerText = boardstate[eachPropertyArray[0]][each];
         }
       });
     });
@@ -221,10 +226,10 @@
 
   function displayNextBoard(game) {
     if (!game.nextBoard) {
-      $('section').addClass('nextBoard');
+      $ui.find('section').addClass('nextBoard');
     } else {
-      $('section').removeClass('nextBoard');
-      $('.outer.' + game.nextBoard).addClass('nextBoard');
+      $ui.find('section').removeClass('nextBoard');
+      $ui.find('.outer.' + game.nextBoard).addClass('nextBoard');
     }
   }
 
