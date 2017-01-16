@@ -4,6 +4,20 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+/**
+ * Shuffles array in place.
+ * @param {Array} a items The array containing the items.
+ */
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i--) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
+}
+
 var pendingPlayers = [];
 
 app.use(function (req, res, next) {
@@ -23,26 +37,24 @@ io.on('connection', function (socket) {
 
   socket.on('i_want_to_play_right_meow', function handleLobby() {
     console.log(socket.id, "wants to play");
+    console.log("Pending Players", pendingPlayers);
     pendingPlayers.push(socket);
 
     if (pendingPlayers.length >= 2) {
       var playersForGame = pendingPlayers.splice(0,2);
+      shuffle(playersForGame);
       var game = new Game(playersForGame);
 
-      var playerOneSocket = playersForGame[0];
-      var playerTwoSocket = playersForGame[1];
-
-      // Subscribe the selected players to the new game room.
-      playerOneSocket.join(game.id);
-      playerTwoSocket.join(game.id);
+      playersForGame.forEach(function bindGameUpdate(playerSocket) {
+        playerSocket.join(game.id);
+        playerSocket.on('game_update', function (move) {
+          console.log(move);
+          game.saveMove(move);
+          io.to(game.id).emit('game_update', game);
+        });
+      });
 
       io.to(game.id).emit("game_start", game );
-
-      socket.on('game_update', function (move) {
-        console.log(move);
-        game.saveMove(move);
-        io.to(game.id).emit('game_update', game);
-      });
     }
   });
 });

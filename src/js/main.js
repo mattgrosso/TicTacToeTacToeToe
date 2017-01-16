@@ -20,9 +20,7 @@
  */
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
-    console.log(game);
-    displayNextBoard( game );
-    updateBoardDisplay( game.boardState );
+    updateDisplay(game);
   });
 
 /**
@@ -31,10 +29,7 @@
  */
   socket.on('game_update', function(serverGame) {
     game = serverGame;
-    console.log(game);
-    displayNextBoard( game );
-    updateBoardDisplay( game.boardState );
-    message(game.currentPlayer + " plays now.");
+    updateDisplay(game);
   });
 
 /**
@@ -126,6 +121,11 @@
       var outerPosition = $(this).parent()[0].classList[1];
       var innerPosition = $(this)[0].classList[1];
 
+      // Unless it is my move.
+      if (!myTurn()) {
+        return;
+      }
+
       if (game.nextBoard && (outerPosition !== game.nextBoard)) {
         message('You need to play on a different board.');
         $('.nextBoard').append($('<aside>Play on this board</aside>').addClass('thisOne'));
@@ -143,8 +143,31 @@
           innerPosition: innerPosition
         });
       }
+
     });
 
+  function updateDisplay(game) {
+    console.log(socket.id);
+    console.log(game);
+    displayNextBoard( game );
+    updateBoardDisplay( game.boardState );
+    console.log(me());
+    if (myTurn()) {
+      message("Your Turn");
+    } else {
+      message("Waiting for " + game.currentPlayer);
+    }
+  }
+
+  function me() {
+    return game.players.find(function (el) {
+      return el.id === socket.id;
+    });
+  }
+
+  function myTurn(){
+    return me().symbol === game.currentPlayer;
+  }
 
 /**
  * This function needs to take in a boardstate object and render the appropriate
@@ -203,7 +226,6 @@
       $('section').removeClass('nextBoard');
       $('.outer.' + game.nextBoard).addClass('nextBoard');
     }
-
   }
 
   $('.test-button').on('click', function testButton() {
