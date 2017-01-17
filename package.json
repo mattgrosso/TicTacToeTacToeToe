@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,6 @@
   "homepage": "https://github.com/mattgrosso/TicTacToeTacToeToe#readme",
   "dependencies": {
     "express": "^4.10.2",
-    "harp": "^0.20.3",
     "socket.io": "^1.5.1"
   },
   "devDependencies": {
@@ -36,6 +36,7 @@
     "time-grunt": "^1.4.0"
   },
   "engines": {
-    "node": "7.2.0"
+    "node": "7.2.0",
+    "npm": "3.10.9"
   }
 }
