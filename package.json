@@ -2,12 +2,13 @@
   "name": "tictactoe",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/app.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,6 @@
   "homepage": "https://github.com/mattgrosso/TicTacToeTacToeToe#readme",
   "dependencies": {
     "express": "^4.10.2",
-    "harp": "^0.20.3",
     "node-uuid": "^1.4.7",
     "socket.io": "^1.5.1"
   },
@@ -35,5 +35,9 @@
     "grunt-contrib-watch": "^1.0.0",
     "jit-grunt": "^0.10.0",
     "time-grunt": "^1.4.0"
+  },
+  "engines": {
+    "node": "7.2.0",
+    "npm": "3.10.9"
   }
 }

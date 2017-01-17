@@ -84,6 +84,9 @@ body {
   width: 615px;
   height: 607px; }
 
+#gameboard-template {
+  display: none; }
+
 .outer {
   position: relative;
   box-sizing: border-box;

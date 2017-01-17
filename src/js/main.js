@@ -1,9 +1,12 @@
-(function() {
+(function(io) {
   'use strict';
 
   var socket = io({
     transports: ['websocket']
   });
+
+  var game;
+  var $ui = $('#gameboard-display');
 
 /**
  * This listens for the 'connected' event and just logs what the server says.
@@ -16,17 +19,18 @@
  * This listens for the 'game_start' event and sets the boardState var to the
  * one sent from the server.
  */
-  socket.on('game_start', function handleGameStart(game) {
-    console.log(game);
-    boardState = game.boardState;
+  socket.on('game_start', function handleGameStart(serverGame) {
+    game = serverGame;
+    updateDisplay(game);
   });
 
 /**
  * This listens for the 'game_update' event and runs the saveAndDisplayMove fn
  * to modify the user's board based on current game state.
  */
-  socket.on('game_update', function(board) {
-    saveAndDisplayMove(board.innerPosition, board.outerPosition);
+  socket.on('game_update', function(serverGame) {
+    game = serverGame;
+    updateDisplay(game);
   });
 
 /**
@@ -37,21 +41,6 @@
     $('.new-game').hide();
     socket.emit("i_want_to_play_right_meow");
   });
-
-  var currentPlayer = 'X';
-  var nextBoard = false;
-  var boardState = {
-    'topLeft': {},
-    'topCenter': {},
-    'topRight': {},
-    'middleLeft': {},
-    'middleCenter': {},
-    'middleRight': {},
-    'bottomLeft': {},
-    'bottomCenter': {},
-    'bottomRight': {},
-    'catsCount': 0
-  };
 
   var testBoardState = {
     'topLeft': {
@@ -128,31 +117,58 @@
  * sends the outerPosition and innerPosition to the server. We can call this a
  * 'move'.
  */
-  $('div')
-    .on('click', function markASquare() {
-      console.log('This is a flag');
+  $ui
+    .on('click', 'div' ,function markASquare() {
       var outerPosition = $(this).parent()[0].classList[1];
       var innerPosition = $(this)[0].classList[1];
 
-      if (nextBoard && (outerPosition !== nextBoard)) {
+      // Unless it is my move.
+      if (!myTurn()) {
+        return;
+      }
+
+      if (game.nextBoard && (outerPosition !== game.nextBoard)) {
         message('You need to play on a different board.');
-        $('.nextBoard').append($('<aside>Play on this board</aside>').addClass('thisOne'));
+        $ui.find('.nextBoard').append($('<aside>Play on this board</aside>').addClass('thisOne'));
         setTimeout(function () {
-          $('.thisOne').remove();
+          $ui.find('.thisOne').remove();
         }, 750);
-      } else if (boardState[outerPosition].boardComplete) {
+      } else if (game.boardState[outerPosition].boardComplete) {
         message('That game is complete. Try a different board.');
-      } else if (boardState[outerPosition][innerPosition]) {
+      } else if (game.boardState[outerPosition][innerPosition]) {
         message('Someone else already went there.');
       } else {
+        console.log('sending move emit');
         socket.emit('game_update', {
           outerPosition: outerPosition,
           innerPosition: innerPosition
         });
-        saveAndDisplayMove(innerPosition, outerPosition);
       }
+
     });
 
+  function updateDisplay(game) {
+    console.log(socket.id);
+    console.log(game);
+    updateBoardDisplay( game.boardState );
+    displayNextBoard( game );
+    console.log(me());
+    if (myTurn()) {
+      message("Your Turn");
+    } else {
+      message("Waiting for " + game.currentPlayer);
+    }
+  }
+
+  function me() {
+    return game.players.find(function (el) {
+      return el.id === socket.id;
+    });
+  }
+
+  function myTurn(){
+    return me().symbol === game.currentPlayer;
+  }
 
 /**
  * This function needs to take in a boardstate object and render the appropriate
@@ -161,9 +177,12 @@
  * symbol.
  * How do I do it now?
  * How can I grab the appropriate div based on the info in the boardstate?
- * When I
  */
   function updateBoardDisplay(boardstate) {
+    var template = $('#gameboard-template').clone();
+    $ui.html(template.html());
+    template = null;
+
     var arrayOfProperties = [
       Object.getOwnPropertyNames(boardstate.topLeft),
       Object.getOwnPropertyNames(boardstate.topCenter),
@@ -196,164 +215,38 @@
           return;
         }
         else if (each === 'winner') {
-          return;
+          $ui.find('.outer.' + eachPropertyArray[0]).addClass(boardstate[eachPropertyArray[0]].winner + 'Winner');
         }
         else {
-          $('.outer.' + eachPropertyArray[0]).children('.' + each)[0].innerText = boardstate[eachPropertyArray[0]][each];
+          $ui.find('.outer.' + eachPropertyArray[0]).children('.' + each)[0].innerText = boardstate[eachPropertyArray[0]][each];
         }
       });
     });
+  }
+
+  function displayNextBoard(game) {
+    if (!game.nextBoard) {
+      $ui.find('section').addClass('nextBoard');
+    } else {
+      $ui.find('section').removeClass('nextBoard');
+      $ui.find('.outer.' + game.nextBoard).addClass('nextBoard');
+    }
   }
 
   $('.test-button').on('click', function testButton() {
     updateBoardDisplay(testBoardState);
   });
 
-
-  function saveAndDisplayMove(innerPosition, outerPosition) {
-    var myTurn = whosTurn();
-    message(currentPlayer + " plays now.");
-    boardState[outerPosition][innerPosition] = myTurn;
-    $('.outer.' + outerPosition).children('.' + innerPosition)[0].innerText = myTurn;
-
-    boardWon(boardState[outerPosition], outerPosition);
-    gameWon(boardState);
-
-    whatBoardNext(innerPosition);
-    console.log(boardState);
-  }
-
   $('.resetButton').on('click', function resetButton() {
     playAgain();
-  });
-
-  $('.logButton').on('click', function logButton() {
-    console.log(boardState);
-    console.log(Object.keys(boardState.topLeft).length);
+    socket.emit("i_want_to_play_right_meow");
   });
 
   function message(messageString) {
     $('.message').text(messageString);
   }
 
-  //'bo' is a Board Object
-  //'boPosition' is the outer position of bo
-  function boardWon(bo, boPosition) {
-    if ((bo.topLeft) && (bo.topLeft === bo.topCenter) && (bo.topLeft === bo.topRight)) {
-      bo.winner = bo.topLeft;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if ((bo.middleLeft) && (bo.middleLeft === bo.middleCenter) && (bo.middleLeft === bo.middleRight)) {
-      bo.winner = bo.middleLeft;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if ((bo.bottomLeft) && (bo.bottomLeft === bo.bottomCenter) && (bo.bottomLeft === bo.bottomRight)) {
-      bo.winner = bo.bottomLeft;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if ((bo.topLeft) && (bo.topLeft === bo.middleLeft) && (bo.topLeft === bo.bottomLeft)) {
-      bo.winner = bo.topLeft;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if ((bo.topCenter) && (bo.topCenter === bo.middleCenter) && (bo.topCenter === bo.bottomCenter)) {
-      bo.winner = bo.topCenter;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if ((bo.topRight) && (bo.topRight === bo.middleRight) && (bo.topRight === bo.bottomRight)) {
-      bo.winner = bo.topRight;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if ((bo.topLeft) && (bo.topLeft === bo.middleCenter) && (bo.topLeft === bo.bottomRight)) {
-      bo.winner = bo.topLeft;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if ((bo.topRight) && (bo.topRight === bo.middleCenter) && (bo.topRight === bo.bottomLeft)) {
-      bo.winner = bo.topRight;
-      bo.boardComplete = true;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-    else if (Object.keys(boardState[boPosition]).length === 9) {
-      bo.winner = 'C';
-      bo.boardComplete = true;
-      boardState.catsCount++;
-      $('.outer.' + boPosition).addClass(bo.winner + 'Winner');
-    }
-  }
-
-  function gameWon(bo) {
-    if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.topCenter.winner) && (bo.topLeft.winner === bo.topRight.winner)) {
-      $('.' + bo.topLeft.winner + 'WinsTheGame').show();
-    }
-    else if ((bo.middleLeft.boardComplete) && (bo.middleLeft.winner === bo.middleCenter.winner) && (bo.middleLeft.winner === bo.middleRight.winner)) {
-      $('.' + bo.middleLeft.winner + 'WinsTheGame').show();
-    }
-    else if ((bo.bottomLeft.boardComplete) && (bo.bottomLeft.winner === bo.bottomCenter.winner) && (bo.bottomLeft.winner === bo.bottomRight.winner)) {
-      $('.' + bo.bottomLeft.winner + 'WinsTheGame').show();
-    }
-    else if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.middleLeft.winner) && (bo.topLeft.winner === bo.bottomLeft.winner)) {
-      $('.' + bo.topLeft.winner + 'WinsTheGame').show();
-    }
-    else if ((bo.topCenter.boardComplete) && (bo.topCenter.winner === bo.middleCenter.winner) && (bo.topCenter.winner === bo.bottomCenter.winner)) {
-      $('.' + bo.topCenter.winner + 'WinsTheGame').show();
-    }
-    else if ((bo.topRight.boardComplete) && (bo.topRight.winner === bo.middleRight.winner) && (bo.topRight.winner === bo.bottomRight.winner)) {
-      $('.' + bo.topRight.winner + 'WinsTheGame').show();
-    }
-    else if ((bo.topLeft.boardComplete) && (bo.topLeft.winner === bo.middleCenter.winner) && (bo.topLeft.winner === bo.bottomRight.winner)) {
-      $('.' + bo.topLeft.winner + 'WinsTheGame').show();
-    }
-    else if ((bo.topRight.boardComplete) && (bo.topRight.winner === bo.middleCenter.winner) && (bo.topRight.winner === bo.bottomLeft.winner)) {
-      $('.' + bo.topRight.winner + 'WinsTheGame').show();
-    }
-    else if (boardState.catsCount === 9) {
-      $('.CWinsTheGame').show();
-    }
-
-  }
-
-  function whosTurn() {
-    if(currentPlayer === 'X'){
-      currentPlayer = 'O';
-      return 'X';
-    } else {
-      currentPlayer = 'X';
-      return 'O';
-    }
-  }
-
-  // 'innerPosition' is the section of the smaller board that was just clicked on
-  function whatBoardNext(innerPosition) {
-    if (boardState[innerPosition].boardComplete) {
-      nextBoard = false;
-      $('section').addClass('nextBoard');
-    } else {
-      nextBoard = innerPosition;
-      $('section').removeClass('nextBoard');
-      $('.outer.' + innerPosition).addClass('nextBoard');
-    }
-  }
-
   function playAgain() {
-    currentPlayer = 'X';
-    nextBoard = false;
-    boardState = {
-      'topLeft': {},
-      'topCenter': {},
-      'topRight': {},
-      'middleLeft': {},
-      'middleCenter': {},
-      'middleRight': {},
-      'bottomLeft': {},
-      'bottomCenter': {},
-      'bottomRight': {}
-    };
     $('div').text('');
     $('.XWinsTheGame').hide().text('X');
     $('.OWinsTheGame').hide().text('O');
@@ -368,4 +261,4 @@
     message('Start Again. X Plays First.');
   }
 
-})();
+})(io);
