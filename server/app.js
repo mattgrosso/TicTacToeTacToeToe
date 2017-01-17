@@ -32,13 +32,19 @@ io.on('connection', function (socket) {
   socket.emit("connected", {});
 
   socket.on('disconnect', function () {
-    console.log(socket.id, 'connection lost');
+    console.log(socket.playerInfo, 'connection lost');
   });
 
-  socket.on('i_want_to_play_right_meow', function handleLobby() {
-    console.log(socket.id, "wants to play");
-    console.log("Pending Players", pendingPlayers);
+  socket.on('i_want_to_play_right_meow', function handleLobby(playerInfo) {
+    socket.playerInfo = playerInfo;
+    console.log(playerInfo.username, socket.id, "wants to play");
+
     pendingPlayers.push(socket);
+
+    console.log("Pending Players", pendingPlayers.map( function (el) {
+      return el.playerInfo;
+      })
+    );
 
     if (pendingPlayers.length >= 2) {
       var playersForGame = pendingPlayers.splice(0,2);
@@ -48,7 +54,7 @@ io.on('connection', function (socket) {
       playersForGame.forEach(function bindGameUpdate(playerSocket) {
         playerSocket.join(game.id);
         playerSocket.on('game_update', function (move) {
-          console.log(move);
+          console.log(game.id, playerSocket.playerInfo.username, move);
           game.saveMove(move);
           io.to(game.id).emit('game_update', game);
         });
@@ -202,5 +208,5 @@ function Game(players) {
 
 
 http.listen(process.env.PORT || 3000, function () {
-  console.log('Example app running on port 3000!');
+  console.log('MetaTacToe has been started on port 3000!');
 });
