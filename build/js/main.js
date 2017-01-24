@@ -150,8 +150,8 @@
   function updateDisplay(game) {
     console.log(socket.id);
     console.log(game);
-    updateBoardDisplay( game.boardState );
-    displayNextBoard( game );
+    updateBoardDisplay(game.boardState, game.winner);
+    displayNextBoard(game);
     console.log(me());
     if (myTurn()) {
       message("Your Turn");
@@ -178,10 +178,17 @@
  * How do I do it now?
  * How can I grab the appropriate div based on the info in the boardstate?
  */
-  function updateBoardDisplay(boardstate) {
+  function updateBoardDisplay(boardstate, winner) {
     var template = $('#gameboard-template').clone();
     $ui.html(template.html());
     template = null;
+
+    if (winner) {
+      $ui.find('.' + winner + 'WinsTheGame').css({
+        'display': 'block'
+      });
+      return;
+    }
 
     var arrayOfProperties = [
       Object.getOwnPropertyNames(boardstate.topLeft),
