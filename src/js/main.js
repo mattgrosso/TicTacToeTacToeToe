@@ -22,6 +22,7 @@
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
     $('.waiting-gif').hide();
+    $('.resetButton').show();
     updateDisplay(game);
   });
 
@@ -40,7 +41,6 @@
  */
   $('.new-game-button').on('click', function startNewGame() {
     $('.new-game').hide();
-    $('.resetButton').show();
     $('.waiting-gif').show();
     message('Waiting for a second player to join. Look at this awesome gif.');
     socket.emit("i_want_to_play_right_meow");
@@ -270,7 +270,10 @@
     $('.outer').removeClass('OWinner');
     $('.outer').removeClass('CWinner');
     $('section').removeClass('nextBoard');
-    message('Start Again. X Plays First.');
+    $('.new-game').hide();
+    $('.resetButton').hide();
+    $('.waiting-gif').show();
+    message('Waiting for a second player to join. Look at this awesome gif.');
   }
 
 })(io);
