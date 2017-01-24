@@ -21,6 +21,7 @@
  */
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
+    $('.waiting-gif').hide();
     updateDisplay(game);
   });
 
@@ -39,6 +40,9 @@
  */
   $('.new-game-button').on('click', function startNewGame() {
     $('.new-game').hide();
+    $('.resetButton').show();
+    $('.waiting-gif').show();
+    message('Waiting for a second player to join. Look at this awesome gif.');
     socket.emit("i_want_to_play_right_meow");
   });
 
