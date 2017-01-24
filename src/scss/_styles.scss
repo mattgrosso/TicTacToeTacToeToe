@@ -4,6 +4,7 @@ body{
 }
 
 .test-button{
+  display: none;
   position: fixed;
   bottom: 75px;
   right: 75px;
@@ -206,4 +207,16 @@ body{
 
 .new-game{
   display: block;
+  position: relative;
+  top: 30vh;
+  left: 26vh;
+  cursor: pointer;
+  .new-game-button{
+    border: none;
+    color: white;
+    background-color: green;
+    font-size: 2em;
+    padding: 10px 50px;
+    box-shadow: 3px 4px 20px 0px black;
+  }
 }
