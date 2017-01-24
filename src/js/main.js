@@ -259,17 +259,17 @@
   }
 
   function playAgain() {
-    $('div').text('');
+    // $('div').text('');
     $('.XWinsTheGame').hide().text('X');
     $('.OWinsTheGame').hide().text('O');
     $('.CWinsTheGame').hide().text('C');
-    $('.XWins').text('X');
-    $('.OWins').text('O');
-    $('.CWins').text('C');
-    $('.outer').removeClass('XWinner');
-    $('.outer').removeClass('OWinner');
-    $('.outer').removeClass('CWinner');
-    $('section').removeClass('nextBoard');
+    // $('.XWins').text('X');
+    // $('.OWins').text('O');
+    // $('.CWins').text('C');
+    // $('.outer').removeClass('XWinner');
+    // $('.outer').removeClass('OWinner');
+    // $('.outer').removeClass('CWinner');
+    // $('section').removeClass('nextBoard');
     $('.new-game').hide();
     $('.resetButton').hide();
     $('.waiting-gif').show();
