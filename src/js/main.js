@@ -263,6 +263,7 @@
     $('.XWinsTheGame').hide().text('X');
     $('.OWinsTheGame').hide().text('O');
     $('.CWinsTheGame').hide().text('C');
+    $ui.hide();
     // $('.XWins').text('X');
     // $('.OWins').text('O');
     // $('.CWins').text('C');
