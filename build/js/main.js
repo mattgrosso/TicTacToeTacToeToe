@@ -154,7 +154,7 @@
     displayNextBoard(game);
     console.log(me());
     if (myTurn()) {
-      message("Your Turn. You are " + me().symbol);
+      message("Your Turn. You are " + me().symbol + ".");
     } else {
       message("Waiting for " + game.currentPlayer);
     }
