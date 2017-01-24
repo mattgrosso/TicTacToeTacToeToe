@@ -187,6 +187,7 @@
       $ui.find('.' + winner + 'WinsTheGame').css({
         'display': 'block'
       });
+      message(winner + 'wins the game!');
       return;
     }
 
