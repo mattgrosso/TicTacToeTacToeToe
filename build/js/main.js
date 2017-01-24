@@ -22,6 +22,7 @@
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
     $('.waiting-gif').hide();
+    $ui.show();
     $('.resetButton').show();
     updateDisplay(game);
   });
