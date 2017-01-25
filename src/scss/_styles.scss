@@ -104,6 +104,34 @@ body{
   }
 }
 
+.game-rules-on-page{
+  z-index: 1;
+  position: absolute;
+  top: 50vh;
+  left: 20vw;
+  width: 50vw;
+  padding: 20px 5vw 20px 5vw;
+  background-color: white;
+  border: solid black;
+  border-radius: 2px;
+  font-family: "Comfortaa", cursive;
+  box-shadow: 4px 8px 20px 0px #8c8c8c;
+  h2{
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  p{
+    margin: 15px 0px;
+  }
+  .rules-button{
+    display: none;
+  }
+  .shadow-blocker{
+    display: none;
+  }
+}
+
 .gameboard{
   display: none;
   width: 615px;
@@ -280,7 +308,7 @@ body{
 .new-game{
   display: block;
   width: 256px;
-  margin: 15vh auto;
+  margin: 10vh auto 0;
   .new-game-button{
     border: none;
     color: white;

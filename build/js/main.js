@@ -22,6 +22,7 @@
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
     $('.waiting-gif').hide();
+    $('.game-rules-on-page').toggleClass('game-rules-on-page').toggleClass('game-rules-sidebar').toggleClass('hidden-left');
     $ui.show();
     $('.resetButton').show();
     updateDisplay(game);
