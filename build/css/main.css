@@ -68,24 +68,61 @@ body {
   box-sizing: border-box;
   background: none;
   font-size: 1.5em;
-  color: white;
-  background-color: #565656;
-  padding: 0px 5px;
-  border: 2px solid #565656;
+  color: green;
+  padding: 0px 6px;
+  border: 2px solid green;
   border-radius: 2px;
   opacity: 0.5;
   cursor: pointer; }
   .resetButton i {
-    vertical-align: text-top; }
+    padding-bottom: 5px; }
   .resetButton:hover {
     opacity: 1; }
+  .resetButton:focus {
+    outline: 0; }
 
-.resetButton:focus {
-  outline: 0; }
-
-.resetButton:active {
+.rules-button {
+  position: absolute;
+  right: -40px;
+  top: 7px;
+  font-family: "Comfortaa", cursive;
+  font-size: 1.5em;
+  color: green;
   background-color: white;
-  color: black; }
+  border: solid green;
+  border-left: none;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  width: 40px;
+  height: 40px;
+  padding: 4px 10px;
+  cursor: pointer; }
+  .rules-button:focus {
+    outline: none; }
+
+.game-rules-sidebar {
+  z-index: 1;
+  position: absolute;
+  top: 90px;
+  left: -2px;
+  width: 220px;
+  padding: 20px 40px 20px 60px;
+  background-color: white;
+  border: solid green;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  font-family: "Comfortaa", cursive;
+  transition: left 0.35s ease-out; }
+  .game-rules-sidebar h2 {
+    font-size: 1.4em;
+    margin-bottom: 20px; }
+  .game-rules-sidebar p {
+    margin: 15px 0px; }
+  .game-rules-sidebar.hidden-left {
+    left: -326px;
+    opacity: 0.5; }
+    .game-rules-sidebar.hidden-left:hover {
+      opacity: 1; }
 
 .gameboard {
   width: 615px;

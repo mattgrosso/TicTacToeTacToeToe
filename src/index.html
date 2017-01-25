@@ -9,10 +9,21 @@
   </head>
   <body>
     <button title="Exit and Start a New Game" class="resetButton" type="button" name="button"><i class="fa fa-times" aria-hidden="true"></i></button>
-    <h2 class="message">Welcome to Tic Tac Toe Tac Toe Toe</h2>
+    <h2 class="message">Welcome to Meta Tac Toe</h2>
     <iframe class="waiting-gif" src="//giphy.com/embed/UxREcFThpSEqk" width="480" height="264" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 
-    
+    <div class="game-rules-sidebar hidden-left">
+      <button title="Learn to Play" class="rules-button" type="button" name="button">
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+      </button>
+      <h2>How to play</h2>
+      <p>The goal of the game is to be the first player to win three inner games in a row. Thereby winning the outer board.</p>
+      <p>The first player can play anywhere on any of the nine inner boards.</p>
+      <p>Subsequent moves must be played on the board that corresponds to the position of your opponent's most recent move.</p>
+      <p>For instance, if your opponent makes a move in the top-left corner of the bottom-right board, your next move will have to be somewhere in the top-left board.</p>
+      <p>If your opponent forces you to make a move on a board that is already complete, you can move on any of the boards.</p>
+      <p>Play proceeds in this fashion until one player has won three games in a row. They win.</p>
+    </div>
 
     <section class="new-game">
       <button class="new-game-button" type="button" name="button">Start Game</button>

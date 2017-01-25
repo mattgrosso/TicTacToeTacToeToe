@@ -49,69 +49,6 @@
     socket.emit("i_want_to_play_right_meow");
   });
 
-  var testBoardState = {
-    'topLeft': {
-      boardComplete: false,
-      topLeft: 'X',
-      middleLeft: 'O',
-      middleCenter: 'O',
-      bottomLeft: 'X',
-    },
-    'topCenter': {
-      boardComplete: false,
-      topLeft: 'X',
-      middleCenter: 'O',
-    },
-    'topRight': {
-      boardComplete: false,
-      middleCenter: 'X',
-      middleRight: 'X',
-      bottomCenter: 'O',
-    },
-    'middleLeft': {
-      boardComplete: false,
-      middleCenter: 'X',
-      middleRight: 'X',
-    },
-    'middleCenter': {
-      boardComplete: true,
-      winner: 'C',
-      topLeft: 'O',
-      topCenter: 'X',
-      topRight: 'O',
-      middleLeft: 'O',
-      middleCenter: 'X',
-      middleRight: 'O',
-      bottomLeft: 'X',
-      bottomCenter: 'O',
-      bottomRight: 'X',
-    },
-    'middleRight': {
-      boardComplete: false,
-      topRight: 'O',
-      middleCenter: 'X',
-      bottomCenter: 'O',
-    },
-    'bottomLeft': {
-      boardComplete: false,
-      topCenter: 'O',
-      middleCenter: 'O',
-    },
-    'bottomCenter': {
-      boardComplete: true,
-      winner: 'X',
-      topRight: 'X',
-      middleCenter: 'X',
-      bottomLeft: 'X',
-    },
-    'bottomRight': {
-      boardComplete: false,
-      middleCenter: 'O',
-    },
-    'catsCount': 0
-  };
-
-
 /**
  * Anytime a div is clicked this records the outerPosition and innerPosition of
  * the click and checks to see three things:
@@ -261,8 +198,10 @@
     }
   }
 
-  $('.test-button').on('click', function testButton() {
-    updateBoardDisplay(testBoardState);
+  $('.rules-button').on('click', function rulesButton() {
+    $(this).html('<i class="fa fa-times" aria-hidden="true"></i>');
+    $('.game-rules-sidebar').toggleClass('hidden-left');
+    $('.hidden-left .rules-button').html('<i class="fa fa-question-circle" aria-hidden="true"></i>');
   });
 
   $('.resetButton').on('click', function resetButton() {
