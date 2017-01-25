@@ -57,25 +57,34 @@ body {
 
 .message {
   text-align: center;
+  font-family: "Comfortaa", cursive;
+  font-size: 1.7em;
   margin: 0;
   padding: 0px 0px 40px 0px; }
 
 .waiting-gif {
-  display: none; }
+  display: none;
+  margin: auto; }
 
 .resetButton {
   display: none;
+  position: relative;
+  left: 22px;
   float: right;
   box-sizing: border-box;
   background: none;
-  font-size: 1em;
+  font-size: 1.5em;
   color: white;
-  background-color: black;
-  padding: 5px 20px;
-  border: 2px solid black;
+  background-color: #565656;
+  padding: 0px 5px;
+  border: 2px solid #565656;
   border-radius: 2px;
-  margin-left: 50px;
-  margin-right: -70px; }
+  opacity: 0.5;
+  cursor: pointer; }
+  .resetButton i {
+    vertical-align: text-top; }
+  .resetButton:hover {
+    opacity: 1; }
 
 .resetButton:focus {
   outline: 0; }
@@ -105,7 +114,8 @@ body {
   height: 50px;
   text-align: center;
   font-size: 2em;
-  padding-top: 5px; }
+  padding-top: 5px;
+  cursor: not-allowed; }
 
 .topLeft {
   border-top: none;
@@ -148,6 +158,8 @@ body {
 
 .nextBoard {
   background-color: rgba(0, 100, 0, 0.25); }
+  .nextBoard .inner {
+    cursor: pointer; }
 
 .XWins {
   display: none;
@@ -218,14 +230,16 @@ body {
 .thisOne {
   position: absolute;
   color: red;
-  top: 2px;
-  left: 50px; }
+  top: 89px;
+  left: 25px;
+  padding: 4px 0px;
+  font-family: "Comfortaa", cursive;
+  background-color: #c0d9c0; }
 
 .new-game {
   display: block;
-  position: relative;
-  top: 30vh;
-  left: 26vh; }
+  width: 256px;
+  margin: 15vh auto; }
   .new-game .new-game-button {
     border: none;
     color: white;

@@ -42,8 +42,10 @@
  */
   $('.new-game-button').on('click', function startNewGame() {
     $('.new-game').hide();
-    $('.waiting-gif').show();
-    message('Waiting for a second player to join. Look at this awesome gif.');
+    $('.waiting-gif').css({
+      display: 'block'
+    });
+    message('Waiting for a second player to join.');
     socket.emit("i_want_to_play_right_meow");
   });
 
@@ -188,6 +190,19 @@
     $ui.html(template.html());
     template = null;
 
+    if (!myTurn()) {
+      $ui.css({
+        opacity: '0.5',
+      });
+      $ui.find('.inner').css({
+        cursor: 'not-allowed'
+      });
+    } else {
+      $ui.css({
+        opacity: '1',
+      });
+    }
+
     if (winner) {
       $ui.find('.' + winner + 'WinsTheGame').css({
         'display': 'block'
@@ -274,8 +289,10 @@
     // $('section').removeClass('nextBoard');
     $('.new-game').hide();
     $('.resetButton').hide();
-    $('.waiting-gif').show();
-    message('Waiting for a second player to join. Look at this awesome gif.');
+    $('.waiting-gif').css({
+      display: 'block'
+    });
+    message('Waiting for a second player to join.');
   }
 
 })(io);
