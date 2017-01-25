@@ -26,9 +26,8 @@ body{
   box-sizing: border-box;
   background: none;
   font-size: 1.5em;
-  color: green;
   padding: 0px 6px;
-  border: 2px solid green;
+  border: solid black;
   border-radius: 2px;
   opacity: 0.75;
   cursor: pointer;
@@ -50,9 +49,8 @@ body{
   top: 7px;
   font-family: $font;
   font-size: 1.5em;
-  color: green;
   background-color: white;
-  border: solid green;
+  border: solid black;
   border-left: none;
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
@@ -83,7 +81,7 @@ body{
   width: 220px;
   padding: 20px 40px 20px 60px;
   background-color: white;
-  border: solid green;
+  border: solid black;
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   font-family: $font;
