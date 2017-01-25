@@ -49,12 +49,6 @@ body {
   width: 650px;
   margin: 40px auto; }
 
-.test-button {
-  display: none;
-  position: fixed;
-  bottom: 75px;
-  right: 75px; }
-
 .message {
   text-align: center;
   font-family: "Comfortaa", cursive;
