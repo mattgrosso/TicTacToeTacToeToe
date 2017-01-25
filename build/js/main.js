@@ -199,9 +199,9 @@
   }
 
   $('.rules-button').on('click', function rulesButton() {
-    $(this).html('<i class="fa fa-times" aria-hidden="true"></i>');
+    $(this).html('<i class="fa fa-times" aria-hidden="true"></i>').attr('title', 'Close Rules');
     $('.game-rules-sidebar').toggleClass('hidden-left');
-    $('.hidden-left .rules-button').html('<i class="fa fa-question-circle" aria-hidden="true"></i>');
+    $('.hidden-left .rules-button').html('<i class="fa fa-question-circle" aria-hidden="true"></i>').attr('title', 'Learn to Play');
   });
 
   $('.resetButton').on('click', function resetButton() {
