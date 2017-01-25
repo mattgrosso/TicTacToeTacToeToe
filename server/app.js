@@ -3,20 +3,7 @@ var uuid = require('node-uuid');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
-/**
- * Shuffles array in place.
- * @param {Array} a items The array containing the items.
- */
-function shuffle(a) {
-    var j, x, i;
-    for (i = a.length; i; i--) {
-        j = Math.floor(Math.random() * i);
-        x = a[i - 1];
-        a[i - 1] = a[j];
-        a[j] = x;
-    }
-}
+var shuffle = require('./lib/shuffle');
 
 var pendingPlayers = [];
 
