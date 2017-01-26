@@ -21,6 +21,7 @@
  */
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
+    localStorage.setItem("user_id", me().id);
     $('.waiting-gif').hide();
     $('.game-rules-on-page').toggleClass('game-rules-on-page').toggleClass('game-rules-sidebar').toggleClass('hidden-left');
     $ui.show();
@@ -41,7 +42,8 @@
  * This triggers when the new game button is clicked. It hides the button and
  * emits the event 'i_want_to_play_right_meow' to the server.
  */
-  $('#register-new-player').on('submit', function startNewGame() {
+  $('#register-new-player').on('submit', function startNewGame(e) {
+    e.preventDefault();
     $('#register-new-player').hide();
     $('.waiting-gif').css({
       display: 'block'
@@ -49,7 +51,9 @@
     message('Waiting for a second player to join.');
     var username = $(this).find("input[name='username']").val();
 
-    socket.emit( "i_want_to_play_right_meow", { username: username } );
+    var userId = localStorage.getItem("user_id");
+
+    socket.emit( "i_want_to_play_right_meow", { username: username, id: userId } );
     return false;
   });
 
@@ -110,7 +114,7 @@
 
   function me() {
     return game.players.find(function (el) {
-      return el.id === socket.id;
+      return el.socketId === socket.id;
     });
   }
 
