@@ -15,6 +15,12 @@
     if (!localStorage.getItem('user_id')) {
       localStorage.setItem('user_id', id);
     }
+    var pathComponents = window.location.pathname.split('/');
+    console.log(pathComponents);
+    if (pathComponents[1] === 'game' && pathComponents[2]) {
+      var gameId = pathComponents[2];
+      console.log(gameId);
+    }
 
     console.log('Connected to Server');
   });
