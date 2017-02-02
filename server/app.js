@@ -16,7 +16,7 @@ app.use(express.static('build'));
 
 io.on('connection', function (socket) {
   console.log('connection established', socket.id);
-  socket.emit("connected", {});
+  socket.emit("connected", uuid.v4());
 
   socket.on('disconnect', function () {
     console.log(socket.playerInfo, 'connection lost');
@@ -24,12 +24,8 @@ io.on('connection', function (socket) {
 
   socket.on('i_want_to_play_right_meow', function handleLobby(playerInfo) {
     socket.playerInfo = playerInfo;
-    // Assign a player id if the user did not present one, client should store in local for game disconnect prevention.
-    if (!playerInfo.id || playerInfo.id === 'undefined') {
-      socket.playerInfo.id = uuid.v4();
-    }
 
-    console.log(playerInfo.username, socket.id, "wants to play");
+    console.log(playerInfo.username, playerInfo.id, "wants to play");
 
     pendingPlayers.push(socket);
 
@@ -63,8 +59,8 @@ function Game(players) {
     currentPlayer: "X",
     nextBoard: false,
     players: [
-      { id: players[0].playerInfo.id, socketId: players[0].id, symbol: "X" },
-      { id: players[1].playerInfo.id, socketId: players[1].id, symbol: "O" }
+      { id: players[0].playerInfo.id, username: players[0].playerInfo.username, socketId: players[0].id, symbol: "X" },
+      { id: players[1].playerInfo.id, username: players[1].playerInfo.username, socketId: players[1].id, symbol: "O" }
     ],
     boardState: {
       'topLeft': {},

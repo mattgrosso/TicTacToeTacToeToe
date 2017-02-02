@@ -11,8 +11,12 @@
 /**
  * This listens for the 'connected' event and just logs what the server says.
  */
-  socket.on('connected', function handleConnection(data) {
-    console.log("Connected to Server", data);
+  socket.on('connected', function handleConnection(id) {
+    if (!localStorage.getItem('user_id')) {
+      localStorage.setItem('user_id', id);
+    }
+
+    console.log('Connected to Server');
   });
 
 /**
@@ -21,7 +25,6 @@
  */
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
-    localStorage.setItem("user_id", me().id);
     $('.waiting-gif').hide();
     $('.game-rules-on-page').toggleClass('game-rules-on-page').toggleClass('game-rules-sidebar').toggleClass('hidden-left');
     $ui.show();
@@ -50,6 +53,7 @@
     });
     message('Waiting for a second player to join.');
     var username = $(this).find("input[name='username']").val();
+    localStorage.setItem('username', username);
 
     var userId = localStorage.getItem("user_id");
 
@@ -114,7 +118,7 @@
 
   function me() {
     return game.players.find(function (el) {
-      return el.socketId === socket.id;
+      return el.id === localStorage.getItem('user_id');
     });
   }
 
