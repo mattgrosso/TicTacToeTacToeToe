@@ -4,6 +4,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var shuffle = require('./lib/shuffle');
+var path    = require("path");
 
 var pendingPlayers = [];
 
@@ -13,6 +14,10 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static('build'));
+
+app.get("/game/:gameId", function getGame(req, res) {
+  res.sendFile(path.join(__dirname+'/../build/index.html'));
+});
 
 io.on('connection', function (socket) {
   console.log('connection established', socket.id);

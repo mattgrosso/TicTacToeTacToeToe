@@ -25,6 +25,7 @@
  */
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
+    history.pushState('', 'X vs O', "/game/" + game.id);
     $('.waiting-gif').hide();
     $('.game-rules-on-page').toggleClass('game-rules-on-page').toggleClass('game-rules-sidebar').toggleClass('hidden-left');
     $ui.show();
