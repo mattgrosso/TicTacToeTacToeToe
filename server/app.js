@@ -3,20 +3,7 @@ var uuid = require('node-uuid');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
-/**
- * Shuffles array in place.
- * @param {Array} a items The array containing the items.
- */
-function shuffle(a) {
-    var j, x, i;
-    for (i = a.length; i; i--) {
-        j = Math.floor(Math.random() * i);
-        x = a[i - 1];
-        a[i - 1] = a[j];
-        a[j] = x;
-    }
-}
+var shuffle = require('./lib/shuffle');
 
 var pendingPlayers = [];
 
@@ -29,16 +16,23 @@ app.use(express.static('build'));
 
 io.on('connection', function (socket) {
   console.log('connection established', socket.id);
-  socket.emit("connected", {});
+  socket.emit("connected", uuid.v4());
 
   socket.on('disconnect', function () {
-    console.log(socket.id, 'connection lost');
+    console.log(socket.playerInfo, 'connection lost');
   });
 
-  socket.on('i_want_to_play_right_meow', function handleLobby() {
-    console.log(socket.id, "wants to play");
-    console.log("Pending Players", pendingPlayers);
+  socket.on('i_want_to_play_right_meow', function handleLobby(playerInfo) {
+    socket.playerInfo = playerInfo;
+
+    console.log(playerInfo.username, playerInfo.id, "wants to play");
+
     pendingPlayers.push(socket);
+
+    console.log("Pending Players", pendingPlayers.map( function (el) {
+      return el.playerInfo;
+      })
+    );
 
     if (pendingPlayers.length >= 2) {
       var playersForGame = pendingPlayers.splice(0,2);
@@ -48,7 +42,7 @@ io.on('connection', function (socket) {
       playersForGame.forEach(function bindGameUpdate(playerSocket) {
         playerSocket.join(game.id);
         playerSocket.on('game_update', function (move) {
-          console.log(move);
+          console.log(game.id, playerSocket.playerInfo.username, move);
           game.saveMove(move);
           io.to(game.id).emit('game_update', game);
         });
@@ -65,8 +59,8 @@ function Game(players) {
     currentPlayer: "X",
     nextBoard: false,
     players: [
-      { id: players[0].id, symbol: "X" },
-      { id: players[1].id, symbol: "O" }
+      { id: players[0].playerInfo.id, username: players[0].playerInfo.username, socketId: players[0].id, symbol: "X" },
+      { id: players[1].playerInfo.id, username: players[1].playerInfo.username, socketId: players[1].id, symbol: "O" }
     ],
     boardState: {
       'topLeft': {},
@@ -202,5 +196,5 @@ function Game(players) {
 
 
 http.listen(process.env.PORT || 3000, function () {
-  console.log('Example app running on port 3000!');
+  console.log('MetaTacToe has been started on port 3000!');
 });

@@ -11,8 +11,12 @@
 /**
  * This listens for the 'connected' event and just logs what the server says.
  */
-  socket.on('connected', function handleConnection(data) {
-    console.log("Connected to Server", data);
+  socket.on('connected', function handleConnection(id) {
+    if (!localStorage.getItem('user_id')) {
+      localStorage.setItem('user_id', id);
+    }
+
+    console.log('Connected to Server');
   });
 
 /**
@@ -41,13 +45,20 @@
  * This triggers when the new game button is clicked. It hides the button and
  * emits the event 'i_want_to_play_right_meow' to the server.
  */
-  $('.new-game-button').on('click', function startNewGame() {
-    $('.new-game').hide();
+  $('#register-new-player').on('submit', function startNewGame(e) {
+    e.preventDefault();
+    $('#register-new-player').hide();
     $('.waiting-gif').css({
       display: 'block'
     });
     message('Waiting for a second player to join.');
-    socket.emit("i_want_to_play_right_meow");
+    var username = $(this).find("input[name='username']").val();
+    localStorage.setItem('username', username);
+
+    var userId = localStorage.getItem("user_id");
+
+    socket.emit( "i_want_to_play_right_meow", { username: username, id: userId } );
+    return false;
   });
 
 /**
@@ -107,7 +118,7 @@
 
   function me() {
     return game.players.find(function (el) {
-      return el.id === socket.id;
+      return el.id === localStorage.getItem('user_id');
     });
   }
 
