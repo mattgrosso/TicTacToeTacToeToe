@@ -12,14 +12,13 @@
  * This listens for the 'connected' event and just logs what the server says.
  */
   socket.on('connected', function handleConnection(id) {
-    if (!localStorage.getItem('user_id')) {
-      localStorage.setItem('user_id', id);
+    if (!localStorage.getItem('userID')) {
+      localStorage.setItem('userID', id);
     }
     var pathComponents = window.location.pathname.split('/');
-    console.log(pathComponents);
     if (pathComponents[1] === 'game' && pathComponents[2]) {
-      var gameId = pathComponents[2];
-      console.log(gameId);
+      var gameID = pathComponents[2];
+      socket.emit('rejoin_game', {gameID: gameID, playerInfo: storedPlayerInfo()});
     }
 
     console.log('Connected to Server');
@@ -33,7 +32,8 @@
     game = serverGame;
     history.pushState('', 'X vs O', "/game/" + game.id);
     $('.waiting-gif').hide();
-    $('.game-rules-on-page').toggleClass('game-rules-on-page').toggleClass('game-rules-sidebar').toggleClass('hidden-left');
+    $('.game-rules-on-page').removeClass('game-rules-on-page').addClass('game-rules-sidebar').addClass('hidden-left');
+    $('#register-new-player').hide();
     $ui.show();
     $('.resetButton').show();
     updateDisplay(game);
@@ -48,6 +48,10 @@
     updateDisplay(game);
   });
 
+  socket.on('error', function displayError(errorMessage) {
+    message(errorMessage);
+  });
+
 /**
  * This triggers when the new game button is clicked. It hides the button and
  * emits the event 'i_want_to_play_right_meow' to the server.
@@ -59,12 +63,10 @@
       display: 'block'
     });
     message('Waiting for a second player to join.');
-    var username = $(this).find("input[name='username']").val();
+    var username = $(this).find("input[name='username']").val() || "Anonymoose";
     localStorage.setItem('username', username);
 
-    var userId = localStorage.getItem("user_id");
-
-    socket.emit( "i_want_to_play_right_meow", { username: username, id: userId } );
+    socket.emit( "i_want_to_play_right_meow", storedPlayerInfo() );
     return false;
   });
 
@@ -116,6 +118,10 @@
     updateBoardDisplay(game.boardState, game.winner);
     displayNextBoard(game);
     console.log(me());
+    if (!me()) {
+      message('Spectating ' + game.players[0].username + ' vs. ' + game.players[1].username);
+      return;
+    }
     if (myTurn()) {
       message("Your Turn. You are " + me().symbol + ".");
     } else {
@@ -125,7 +131,7 @@
 
   function me() {
     return game.players.find(function (el) {
-      return el.id === localStorage.getItem('user_id');
+      return el.id === localStorage.getItem('userID');
     });
   }
 
@@ -146,7 +152,7 @@
     $ui.html(template.html());
     template = null;
 
-    if (!myTurn()) {
+    if (!me() || !myTurn()) {
       $ui.css({
         opacity: '0.5',
       });
@@ -251,6 +257,10 @@
       display: 'block'
     });
     message('Waiting for a second player to join.');
+  }
+
+  function storedPlayerInfo() {
+    return { username: localStorage.getItem("username"), id: localStorage.getItem("userID") };
   }
 
 })(io);

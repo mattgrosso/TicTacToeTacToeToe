@@ -7,6 +7,7 @@ var shuffle = require('./lib/shuffle');
 var path    = require("path");
 
 var pendingPlayers = [];
+var currentGames = [];
 
 app.use(function (req, res, next) {
   console.log("New request to ", req.path);
@@ -15,7 +16,7 @@ app.use(function (req, res, next) {
 
 app.use(express.static('build'));
 
-app.get("/game/:gameId", function getGame(req, res) {
+app.get("/game/:gameID", function getGame(req, res) {
   res.sendFile(path.join(__dirname+'/../build/index.html'));
 });
 
@@ -25,6 +26,18 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', function () {
     console.log(socket.playerInfo, 'connection lost');
+  });
+
+  socket.on('rejoin_game', function (rejoinData) {
+    var gameToJoin = findGameById(rejoinData.gameID);
+    socket.playerInfo = rejoinData.playerInfo;
+    if (!gameToJoin) {
+      console.log('No Game Found');
+      // return socket.emit('error', "Game not found.");
+      return;
+    }
+    bindSocketToGame(socket, gameToJoin);
+    socket.emit('game_start', gameToJoin);
   });
 
   socket.on('i_want_to_play_right_meow', function handleLobby(playerInfo) {
@@ -43,14 +56,10 @@ io.on('connection', function (socket) {
       var playersForGame = pendingPlayers.splice(0,2);
       shuffle(playersForGame);
       var game = new Game(playersForGame);
+      currentGames.push(game);
 
       playersForGame.forEach(function bindGameUpdate(playerSocket) {
-        playerSocket.join(game.id);
-        playerSocket.on('game_update', function (move) {
-          console.log(game.id, playerSocket.playerInfo.username, move);
-          game.saveMove(move);
-          io.to(game.id).emit('game_update', game);
-        });
+        bindSocketToGame(playerSocket, game);
       });
 
       io.to(game.id).emit("game_start", game );
@@ -199,6 +208,20 @@ function Game(players) {
   };
 }
 
+function findGameById(gameID) {
+  return currentGames.find(function (el) {
+    return el.id === gameID;
+  });
+}
+
+function bindSocketToGame(socket, game) {
+  socket.join(game.id);
+  socket.on('game_update', function (move) {
+    console.log(game.id, socket.playerInfo.username, move);
+    game.saveMove(move);
+    io.to(game.id).emit('game_update', game);
+  });
+}
 
 http.listen(process.env.PORT || 3000, function () {
   console.log('MetaTacToe has been started on port 3000!');
