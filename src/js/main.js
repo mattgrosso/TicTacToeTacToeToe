@@ -231,7 +231,7 @@
 
   $('.resetButton').on('click', function resetButton() {
     playAgain();
-    socket.emit("i_want_to_play_right_meow");
+    socket.emit("i_want_to_play_right_meow", storedPlayerInfo());
   });
 
   function message(messageString) {

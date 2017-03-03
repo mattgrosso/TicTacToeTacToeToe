@@ -41,6 +41,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('i_want_to_play_right_meow', function handleLobby(playerInfo) {
+    console.log('playerinfo: ', playerInfo);
     socket.playerInfo = playerInfo;
 
     console.log(playerInfo.username, playerInfo.id, "wants to play");
