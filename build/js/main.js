@@ -3424,28 +3424,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   var game = void 0;
   var $ui = $('#gameboard-display');
 
-  function tick() {
-    var element = React.createElement(
-      "div",
-      null,
-      React.createElement(
-        "h1",
-        null,
-        "Register"
-      ),
-      React.createElement(
-        "h2",
-        null,
-        "It is ",
-        new Date().toLocaleTimeString(),
-        "."
-      )
-    );
-    ReactDOM.render(element, document.getElementById('register-new-player'));
-  }
-
-  setInterval(tick, 1000);
-
   /**
    * This listens for the 'connected' event and just logs what the server says.
    */
