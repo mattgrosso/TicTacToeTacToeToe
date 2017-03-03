@@ -25,6 +25,8 @@ io.on('connection', function (socket) {
   socket.emit("connected", uuid.v4());
 
   socket.on('disconnect', function () {
+    let indexOfPlayerWhoLeft = pendingPlayers.indexOf(socket);
+    pendingPlayers.splice(indexOfPlayerWhoLeft, 1);
     console.log(socket.playerInfo, 'connection lost');
   });
 
