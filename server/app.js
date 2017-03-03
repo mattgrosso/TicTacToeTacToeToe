@@ -33,8 +33,11 @@ io.on('connection', function (socket) {
     socket.playerInfo = rejoinData.playerInfo;
     if (!gameToJoin) {
       console.log('No Game Found');
-      // return socket.emit('error', "Game not found.");
-      return;
+      return socket.emit('exception', {
+        msg: "Game not found.",
+        type: "game_not_found"
+      });
+      // TODO: Make a constructor function for 'error'?
     }
     bindSocketToGame(socket, gameToJoin);
     socket.emit('game_start', gameToJoin);

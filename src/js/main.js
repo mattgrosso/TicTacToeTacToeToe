@@ -1,12 +1,14 @@
 (function(io) {
   'use strict';
 
+
   var socket = io({
     transports: ['websocket']
   });
 
   let game;
   const $ui = $('#gameboard-display');
+  const PAGETITLE = "MetaTacToe";
 
 /**
  * This listens for the 'connected' event and just logs what the server says.
@@ -25,12 +27,22 @@
   });
 
 /**
+ *
+ */
+  socket.on('exception', function handleErrors(error) {
+    message(error.msg);
+    if (error.type === 'game_not_found') {
+      history.pushState('', PAGETITLE, "/");
+    }
+  });
+
+/**
  * This listens for the 'game_start' event and sets the boardState var to the
  * one sent from the server.
  */
   socket.on('game_start', function handleGameStart(serverGame) {
     game = serverGame;
-    history.pushState('', 'X vs O', "/game/" + game.id);
+    history.pushState('', PAGETITLE, "/game/" + game.id);
     $('.waiting-gif').hide();
     $('.game-rules-on-page').removeClass('game-rules-on-page').addClass('game-rules-sidebar').addClass('hidden-left');
     $('#register-new-player').hide();
