@@ -5,8 +5,8 @@
     transports: ['websocket']
   });
 
-  var game;
-  var $ui = $('#gameboard-display');
+  let game;
+  const $ui = $('#gameboard-display');
 
 /**
  * This listens for the 'connected' event and just logs what the server says.

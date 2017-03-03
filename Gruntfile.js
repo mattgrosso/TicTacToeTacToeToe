@@ -1,9 +1,21 @@
 module.exports = function(grunt) {
   'use strict';
     require('jit-grunt')(grunt);
+    require("load-grunt-tasks")(grunt); // npm install --save-dev load-grunt-tasks
 
     grunt.initConfig({
-
+      babel: {
+          options: {
+            sourceMap: true,
+            inputSourceMap: grunt.file.readJSON('build/js/main.js.map')
+          },
+          dist: {
+            src: [
+                'build/js/main.js',
+            ],
+            dest: 'build/js/main.js'
+          }
+      },
       jshint: {
         options: {
           jshintrc: true
@@ -76,8 +88,8 @@ module.exports = function(grunt) {
 
     require('time-grunt')(grunt);
 
-    grunt.registerTask('js-build', ['concat:js', 'jshint']);
+    grunt.registerTask('js-build', ['concat:js', 'babel', 'jshint']);
     grunt.registerTask('css-build', ['sass']);
-    grunt.registerTask('default', ['clean', 'copy', 'concat', 'jshint', 'sass']);
+    grunt.registerTask('default', ['clean', 'copy', 'concat','babel', 'jshint', 'sass']);
 
 };
