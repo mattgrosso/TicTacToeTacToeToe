@@ -54,7 +54,11 @@ module.exports = function(grunt) {
           sourceMap: true
         },
         js: {
-          src: ['src/js/*.js'],
+          src: [
+            'node_modules/react/dist/react.min.js',
+            'node_modules/react-dom/dist/react-dom.min.js',
+            'src/js/*.js'
+            ],
           dest: 'build/js/main.js'
         },
         server: {
@@ -88,8 +92,8 @@ module.exports = function(grunt) {
 
     require('time-grunt')(grunt);
 
-    grunt.registerTask('js-build', ['concat:js', 'babel', 'jshint']);
+    grunt.registerTask('js-build', ['concat:js', 'babel']);
     grunt.registerTask('css-build', ['sass']);
-    grunt.registerTask('default', ['clean', 'copy', 'concat','babel', 'jshint', 'sass']);
+    grunt.registerTask('default', ['clean', 'copy', 'concat','babel', 'sass']);
 
 };
