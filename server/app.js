@@ -27,6 +27,9 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     let indexOfPlayerWhoLeft = pendingPlayers.indexOf(socket);
     pendingPlayers.splice(indexOfPlayerWhoLeft, 1);
+
+    let game = findGameBySocket(socket);
+    console.log("game left:", game);
     console.log(socket.playerInfo, 'connection lost');
   });
 
@@ -217,6 +220,12 @@ function Game(players) {
 function findGameById(gameID) {
   return currentGames.find(function (el) {
     return el.id === gameID;
+  });
+}
+
+function findGameBySocket(socket) {
+  return currentGames.find(function (el) {
+    return el.players.filter(function (p){ return p.socketId === socket.id }).length > 0 ;
   });
 }
 
