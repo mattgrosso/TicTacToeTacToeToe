@@ -94,6 +94,6 @@ module.exports = function(grunt) {
 
     grunt.registerTask('js-build', ['concat:js', 'babel']);
     grunt.registerTask('css-build', ['sass']);
-    grunt.registerTask('default', ['clean', 'copy', 'concat','babel', 'sass']);
+    grunt.registerTask('default', ['clean', 'copy', 'concat', 'babel', 'sass']);
 
 };
