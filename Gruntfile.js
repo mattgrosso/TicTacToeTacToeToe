@@ -3,11 +3,17 @@ module.exports = function(grunt) {
     require('jit-grunt')(grunt);
     require("load-grunt-tasks")(grunt); // npm install --save-dev load-grunt-tasks
 
+    function sourceMap(path) {
+      if (grunt.file.exists(path)) {
+        return grunt.file.readJSON(path)  
+      }
+    }
+
     grunt.initConfig({
       babel: {
           options: {
             sourceMap: true,
-            inputSourceMap: grunt.file.readJSON('build/js/main.js.map')
+            inputSourceMap: sourceMap('build/js/main.js.map')
           },
           dist: {
             src: [
