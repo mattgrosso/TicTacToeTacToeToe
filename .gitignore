@@ -1,6 +1,7 @@
 .DS_Store
 .sass-cache/
 node_modules/
+build/*
 css/main.css.map
 token.md
 js/vendor/

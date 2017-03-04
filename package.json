@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ."
+    "start": "node .",
+    "postinstall": "grunt"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
   "homepage": "https://github.com/mattgrosso/TicTacToeTacToeToe#readme",
   "dependencies": {
     "express": "^4.10.2",
+    "grunt": "1.0.1",
+    "grunt-cli": "1.2.0",
     "node-uuid": "^1.4.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
