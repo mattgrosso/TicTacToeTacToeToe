@@ -25,11 +25,12 @@ io.on('connection', function (socket) {
   socket.emit("connected", uuid.v4());
 
   socket.on('disconnect', function () {
+    // If a player is in the pending player queue, remove them.
     let indexOfPlayerWhoLeft = pendingPlayers.indexOf(socket);
-    pendingPlayers.splice(indexOfPlayerWhoLeft, 1);
-
-    let game = findGameBySocket(socket);
-    console.log("game left:", game);
+    if (indexOfPlayerWhoLeft > -1) {
+      pendingPlayers.splice(indexOfPlayerWhoLeft, 1);      
+    }
+    
     console.log(socket.playerInfo, 'connection lost');
   });
 
@@ -220,12 +221,6 @@ function Game(players) {
 function findGameById(gameID) {
   return currentGames.find(function (el) {
     return el.id === gameID;
-  });
-}
-
-function findGameBySocket(socket) {
-  return currentGames.find(function (el) {
-    return el.players.filter(function (p){ return p.socketId === socket.id }).length > 0 ;
   });
 }
 
