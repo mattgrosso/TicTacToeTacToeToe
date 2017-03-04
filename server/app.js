@@ -28,9 +28,9 @@ io.on('connection', function (socket) {
     // If a player is in the pending player queue, remove them.
     let indexOfPlayerWhoLeft = pendingPlayers.indexOf(socket);
     if (indexOfPlayerWhoLeft > -1) {
-      pendingPlayers.splice(indexOfPlayerWhoLeft, 1);      
+      pendingPlayers.splice(indexOfPlayerWhoLeft, 1);
     }
-    
+
     console.log(socket.playerInfo, 'connection lost');
   });
 
@@ -45,8 +45,10 @@ io.on('connection', function (socket) {
       });
       // TODO: Make a constructor function for 'error'?
     }
+
     bindSocketToGame(socket, gameToJoin);
     socket.emit('game_start', gameToJoin);
+    io.in(gameToJoin.id).emit('game_update', gameToJoin);
   });
 
   socket.on('i_want_to_play_right_meow', function handleLobby(playerInfo) {
@@ -83,9 +85,17 @@ function Game(players) {
     currentPlayer: "X",
     nextBoard: false,
     players: [
-      { id: players[0].playerInfo.id, username: players[0].playerInfo.username, socketId: players[0].id, symbol: "X" },
-      { id: players[1].playerInfo.id, username: players[1].playerInfo.username, socketId: players[1].id, symbol: "O" }
+      { id: players[0].playerInfo.id, username: players[0].playerInfo.username, socketId: players[0].id, symbol: "X", online: true },
+      { id: players[1].playerInfo.id, username: players[1].playerInfo.username, socketId: players[1].id, symbol: "O", online: true }
     ],
+    // This goes upon playerID vs socket,  this allows a reconnected player to retoggle their status to online
+    // Also, do not crash if the player is not a player on the game (allow spectator mode)
+    setPresence: function setPresence(playerId, status){
+      let player = this.players.filter( p => p.id == playerId)[0]
+      if (player) {
+        player.online = status;
+      }
+    },
     boardState: {
       'topLeft': {},
       'topCenter': {},
@@ -225,12 +235,23 @@ function findGameById(gameID) {
 }
 
 function bindSocketToGame(socket, game) {
+  game.setPresence(socket.playerInfo.id, true);
   socket.join(game.id);
   socket.on('game_update', function (move) {
     console.log(game.id, socket.playerInfo.username, move);
     game.saveMove(move);
     io.to(game.id).emit('game_update', game);
   });
+
+  /**
+   * Bind to disconnect in the scope of a game to mark a player offline when a connection is lost.
+   *
+   * Triggers a gameUpdate with the updated player states.
+   */
+  socket.on('disconnect', function gameDisconnect() {
+    game.setPresence(socket.playerInfo.id, false);
+    io.to(game.id).emit('game_update', game);
+  })
 }
 
 http.listen(process.env.PORT || 3000, function () {
