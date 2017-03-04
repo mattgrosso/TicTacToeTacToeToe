@@ -2,6 +2,7 @@
 .sass-cache/
 node_modules/
 build/*
+!build/.gitkeep
 css/main.css.map
 token.md
 js/vendor/
