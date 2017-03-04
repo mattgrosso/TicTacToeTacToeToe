@@ -259,6 +259,8 @@ function bindSocketToGame(socket, game) {
   })
 }
 
-http.listen(process.env.PORT || 3000, function () {
-  console.log('MetaTacToe has been started on port 3000!');
+const port = process.env.PORT || 3000;
+const binding = 'localhost';
+http.listen(port, function () {
+  console.log(`MetaTacToe has been started on port ${binding}:${port}`);
 });
