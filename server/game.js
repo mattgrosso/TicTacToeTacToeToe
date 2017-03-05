@@ -1,3 +1,5 @@
+const uuid = require('node-uuid');
+
 module.exports = function Game(players) {
   return {
     id: uuid.v4(),

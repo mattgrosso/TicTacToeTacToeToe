@@ -1,3 +1,6 @@
+const Game = require('./game');
+let currentGames = [];
+
 function findGameById(gameID) {
   return currentGames.find(function (el) {
     return el.id === gameID;
@@ -10,7 +13,7 @@ function bindSocketToGame(socket, game) {
   socket.on('game_update', function (move) {
     console.log(game.id, socket.playerInfo.username, move);
     game.saveMove(move);
-    io.to(game.id).emit('game_update', game);
+    socket.server.to(game.id).emit('game_update', game);
   });
 
   /**
@@ -20,11 +23,18 @@ function bindSocketToGame(socket, game) {
    */
   socket.on('disconnect', function gameDisconnect() {
     game.setPresence(socket.playerInfo.id, false);
-    io.to(game.id).emit('game_update', game);
+    socket.server.to(game.id).emit('game_update', game);
   })
+}
+
+function start(players) {
+  const game = new Game(players);
+  currentGames.push(game);
+  return game;
 }
 
 module.exports = {
   bindSocketToGame,
-  findGameById
+  findGameById,
+  start
 }
