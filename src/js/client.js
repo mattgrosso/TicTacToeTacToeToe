@@ -127,7 +127,7 @@
   function updateDisplay(game) {
     updateBoardDisplay(game.boardState, game.winner);
     displayNextBoard(game);
-    displayPlayers(game.players);
+    playerList(game.players);
     console.log(me());
     if (!me()) {
       message('Spectating ' + game.players[0].username + ' vs. ' + game.players[1].username);
@@ -148,24 +148,6 @@
 
   function myTurn(){
     return me().symbol === game.currentPlayer;
-  }
-
-  /**
-   * Display Players
-   * 
-   * Create a series of LI tags with a react Identity key (for clean dom replacment)
-   * also set a dynamic className (NOT class) of the online/offline status of the player. 
-   */
-  function displayPlayers(players) {
-    const listItems = players.map((player) => {
-      let onlineStatus = player.online ? 'online' : 'offline';
-      return <li className={onlineStatus} key={player.id} >{player.symbol} {player.username}</li>
-    });
-    const element = <ul>{listItems}</ul>;
-    ReactDOM.render(
-      element,
-      document.getElementById('players')
-    );
   }
 
 /**
