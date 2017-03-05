@@ -45,7 +45,7 @@
     history.pushState('', PAGETITLE, "/game/" + game.id);
     $('.waiting-gif').hide();
     $('.game-rules-on-page').removeClass('game-rules-on-page').addClass('game-rules-sidebar').addClass('hidden-left');
-    $('#register-new-player').hide();
+    $('.new-game').hide();
     $ui.show();
     $('.resetButton').show();
     updateDisplay(game);
@@ -222,33 +222,26 @@
   });
 
   $('.resetButton').on('click', function resetButton() {
-    playAgain();
-    socket.emit("i_want_to_play_right_meow", storedPlayerInfo());
+    goToLobby();
   });
 
   function message(messageString) {
     $('.message').text(messageString);
   }
 
-  function playAgain() {
-    // $('div').text('');
+  function goToLobby() {
     $('.XWinsTheGame').hide().text('X');
     $('.OWinsTheGame').hide().text('O');
     $('.CWinsTheGame').hide().text('C');
     $ui.hide();
-    // $('.XWins').text('X');
-    // $('.OWins').text('O');
-    // $('.CWins').text('C');
-    // $('.outer').removeClass('XWinner');
-    // $('.outer').removeClass('OWinner');
-    // $('.outer').removeClass('CWinner');
-    // $('section').removeClass('nextBoard');
-    $('.new-game').hide();
-    $('.resetButton').hide();
-    $('.waiting-gif').css({
+    $('.new-game').css({
       display: 'block'
     });
-    message('Waiting for a second player to join.');
+    $('#players').hide();
+    $('.resetButton').hide();
+    $('.waiting-gif').hide()
+    history.pushState('', PAGETITLE, "/");
+    message('Welcome to Meta Tac Toe');
   }
 
   function storedPlayerInfo() {
@@ -256,7 +249,8 @@
   }
 
   function handleStartGameForm(gameStartData){
-    $('#register-new-player').hide();
+    $('.new-game').hide();
+    $('#players').show();
     $('.waiting-gif').css({
       display: 'block'
     });
@@ -272,7 +266,6 @@
   ReactDOM.render(
     <div>
       <GameStartForm initalUsername={initalUsername} submit={handleStartGameForm}/>
-      
     </div>,
     document.getElementsByClassName('new-game')[0]
   );

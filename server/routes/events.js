@@ -63,7 +63,7 @@ module.exports = function(io) {
     playersForGame.push({
       playerInfo: {
         id: "computer", 
-        username: "computer"
+        username: "computer",
       }
     });
 

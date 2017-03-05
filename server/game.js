@@ -12,13 +12,16 @@ module.exports = function Game(players) {
     // This goes upon playerID vs socket,  this allows a reconnected player to retoggle their status to online
     // Also, do not crash if the player is not a player on the game (allow spectator mode)
     setPresence: function setPresence(playerId, status){
-      let player = this.players.filter( p => p.id == playerId)[0]
+      let player = this.playerByID(playerId)
       if (player) {
         player.status = {
           online: status, 
           at: Date.now()
         };
       }
+    },
+    playerByID: function playerByID(playerID) {
+      return this.players.filter( p => p.id == playerID)[0]
     },
     boardState: {
       'topLeft': {},
