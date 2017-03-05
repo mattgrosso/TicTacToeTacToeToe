@@ -11,6 +11,7 @@ function bindSocketToGame(socket, game) {
   game.setPresence(socket.playerInfo.id, true);
   socket.join(game.id);
   socket.on('game_update', function (move) {
+
     console.log(game.id, socket.playerInfo.username, move);
     game.saveMove(move);
     socket.server.to(game.id).emit('game_update', game);

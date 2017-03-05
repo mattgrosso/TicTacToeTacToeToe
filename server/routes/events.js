@@ -41,15 +41,40 @@ module.exports = function(io) {
     io.in(gameToJoin.id).emit('game_update', gameToJoin);
   }
 
-  function handleLobby(playerInfo) {
+  function handleLobby(data) {
+    const playerInfo = data.player;
     const socket = this;
 
     console.log('playerinfo: ', playerInfo);
-    this.playerInfo = playerInfo;
+    socket.playerInfo = playerInfo;
 
     console.log(playerInfo.username, playerInfo.id, "wants to play");
 
-    pendingPlayers.push(this);
+    if (data.computer) {
+      playComputer(socket)
+    } else {
+      playHuman(socket);
+    }
+  }
+
+  function playComputer(socket){
+    let playersForGame = [];
+    playersForGame.push(socket);
+    playersForGame.push({
+      playerInfo: {
+        id: "computer", 
+        username: "computer"
+      }
+    });
+
+    let game = GameManger.start(playersForGame);
+    GameManger.bindSocketToGame(socket, game);
+    io.to(game.id).emit("game_start", game );
+  }
+
+
+  function playHuman(socket) {
+    pendingPlayers.push(socket);
 
     console.log("Pending Players", pendingPlayers.map( function (el) {
       return el.playerInfo;

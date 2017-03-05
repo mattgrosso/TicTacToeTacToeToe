@@ -255,22 +255,25 @@
     return { username: localStorage.getItem("username"), id: localStorage.getItem("userID") };
   }
 
-  function handleStartGameForm(username){
+  function handleStartGameForm(gameStartData){
     $('#register-new-player').hide();
     $('.waiting-gif').css({
       display: 'block'
     });
-    
-    message('Waiting for a second player to join.');
-    localStorage.setItem('username', username);
-    socket.emit( "i_want_to_play_right_meow", storedPlayerInfo() );
-  }
 
+    message('Waiting for a second player to join.');
+    localStorage.setItem('username', gameStartData.username);
+
+    socket.emit( "i_want_to_play_right_meow", { player: storedPlayerInfo(), computer: gameStartData.computer } );
+  }
 
   const initalUsername = localStorage.getItem("username") || "Anonymoose";
 
   ReactDOM.render(
-    <GameStartForm initalUsername={initalUsername} submit={handleStartGameForm}/>,
+    <div>
+      <GameStartForm initalUsername={initalUsername} submit={handleStartGameForm}/>
+      
+    </div>,
     document.getElementsByClassName('new-game')[0]
   );
 })(io);

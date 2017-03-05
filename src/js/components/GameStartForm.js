@@ -1,11 +1,19 @@
 class GameStartForm extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {value: this.props.initalUsername};
+    this.state = {
+      username: this.props.initalUsername,
+      computer: false
+    };
+    console.log(this.state);
   }
 
   handleChange = (e) => {
-    this.setState({value: e.target.value})
+    this.setState({username: e.target.value});
+  }
+
+  handleToggleComputer = (e) => {
+    this.setState({computer: e.target.checked});
   }
 
 /**
@@ -13,7 +21,7 @@ class GameStartForm extends React.Component{
  * emits the event 'i_want_to_play_right_meow' to the server.
  */
   handleSubmit = (e) => {
-    this.props.submit(this.state.value, e);
+    this.props.submit(this.state, e);
     e.preventDefault();
   }
 
@@ -23,10 +31,14 @@ class GameStartForm extends React.Component{
       <input 
         type="text" 
         name="username" 
-        value={this.state.value} 
+        value={this.state.username} 
         placeholder="Anonymoose" 
         onChange={this.handleChange}
       />
+      <label for="#play-a-computer">
+        <input id="play-a-computer" type="checkbox" onChange={this.handleToggleComputer}/>
+        Play a Computer
+      </label>
       <button className="new-game-button" type="submit" name="button" >Start Game</button>
     </form>);
   }
