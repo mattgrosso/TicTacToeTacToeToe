@@ -5,7 +5,7 @@
    * also set a dynamic className (NOT class) of the online/offline status of the player. 
    * @param {Array} players
    */
-  function playerList(players) {
+  function PlayerList(players) {
     const listItems = players.map((player) => {
       let onlineStatus = player.status.online ? 'online' : 'offline';
       const list = <li className={onlineStatus} key={player.id} >{player.symbol} {player.username}</li>;

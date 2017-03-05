@@ -65,24 +65,6 @@
   });
 
 /**
- * This triggers when the new game button is clicked. It hides the button and
- * emits the event 'i_want_to_play_right_meow' to the server.
- */
-  $('#register-new-player').on('submit', function startNewGame(e) {
-    e.preventDefault();
-    $('#register-new-player').hide();
-    $('.waiting-gif').css({
-      display: 'block'
-    });
-    message('Waiting for a second player to join.');
-    var username = $(this).find("input[name='username']").val() || "Anonymoose";
-    localStorage.setItem('username', username);
-
-    socket.emit( "i_want_to_play_right_meow", storedPlayerInfo() );
-    return false;
-  });
-
-/**
  * Anytime a div is clicked this records the outerPosition and innerPosition of
  * the click and checks to see three things:
  * 1. If we have a nextboard established and the outerPosition clicked does not
@@ -127,7 +109,7 @@
   function updateDisplay(game) {
     updateBoardDisplay(game.boardState, game.winner);
     displayNextBoard(game);
-    playerList(game.players);
+    PlayerList(game.players);
     console.log(me());
     if (!me()) {
       message('Spectating ' + game.players[0].username + ' vs. ' + game.players[1].username);
@@ -273,4 +255,22 @@
     return { username: localStorage.getItem("username"), id: localStorage.getItem("userID") };
   }
 
+  function handleStartGameForm(username){
+    $('#register-new-player').hide();
+    $('.waiting-gif').css({
+      display: 'block'
+    });
+    
+    message('Waiting for a second player to join.');
+    localStorage.setItem('username', username);
+    socket.emit( "i_want_to_play_right_meow", storedPlayerInfo() );
+  }
+
+
+  const initalUsername = localStorage.getItem("username") || "Anonymoose";
+
+  ReactDOM.render(
+    <GameStartForm initalUsername={initalUsername} submit={handleStartGameForm}/>,
+    document.getElementsByClassName('new-game')[0]
+  );
 })(io);
