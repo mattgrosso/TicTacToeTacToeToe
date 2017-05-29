@@ -113,11 +113,16 @@
     // updateBoardDisplay(game.boardState, game.winner);
 
     ReactDOM.render(
-      <Board game={game.boardState} winner={game.winner} />,
+      <Board
+        game={game.boardState}
+        winner={game.winner}
+        playable={!me() || !myTurn()}
+        nextBoard={game.nextBoard}
+        />,
       document.getElementById('gameboard-display')
     );
 
-    displayNextBoard(game);
+    // displayNextBoard(game);
     PlayerList(game.players);
     console.log(me());
     if (!me()) {
