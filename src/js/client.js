@@ -113,7 +113,7 @@
     // updateBoardDisplay(game.boardState, game.winner);
 
     ReactDOM.render(
-      <Board game={game.boardState} />,
+      <Board game={game.boardState} winner={game.winner} />,
       document.getElementById('gameboard-display')
     );
 

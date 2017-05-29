@@ -251,30 +251,7 @@ body{
   background-color: rgba(150, 150, 150, 0.5);
 }
 
-.XWinsTheGame{
-  display: none;
-  position: absolute;
-  color: white;
-  font-size: 40em;
-  background-color: black;
-  z-index: 1;
-  line-height: 0.75;
-  padding: 100px;
-}
-
-.OWinsTheGame{
-  display: none;
-  position: absolute;
-  color: white;
-  font-size: 40em;
-  background-color: black;
-  z-index: 1;
-  line-height: 0.75;
-  padding: 100px;
-}
-
-.CWinsTheGame{
-  display: none;
+.WinsTheGame{
   position: absolute;
   color: white;
   font-size: 40em;

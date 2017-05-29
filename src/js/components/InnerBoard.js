@@ -9,7 +9,7 @@ class InnerBoard extends React.Component {
       </div>
     ));
     return (
-      <section className={`outer ${position}`}>
+      <section className={`outer ${position} ${innerGame.winner + "Winner"}`}>
         <div className="XWins">X</div>
         <div className="OWins">O</div>
         <div className="CWins">C</div>
