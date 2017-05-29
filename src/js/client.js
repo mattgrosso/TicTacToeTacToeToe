@@ -110,7 +110,12 @@
   });
 
   function updateDisplay(game) {
-    updateBoardDisplay(game.boardState, game.winner);
+    // updateBoardDisplay(game.boardState, game.winner);
+
+    ReactDOM.render(
+      <Board game={game.boardState} />,
+      document.getElementById('gameboard-display')
+    );
     displayNextBoard(game);
     PlayerList(game.players);
     console.log(me());
