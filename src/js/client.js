@@ -45,7 +45,7 @@
     history.pushState('', PAGETITLE, "/game/" + game.id);
     $('.waiting-gif').hide();
     $('.game-rules-on-page').removeClass('game-rules-on-page').addClass('game-rules-sidebar').addClass('hidden-left');
-    $('#register-new-player').hide();
+    $('.new-game').hide();
     $ui.show();
     $('.resetButton').show();
     updateDisplay(game);
@@ -62,24 +62,6 @@
 
   socket.on('error', function displayError(errorMessage) {
     message(errorMessage);
-  });
-
-/**
- * This triggers when the new game button is clicked. It hides the button and
- * emits the event 'i_want_to_play_right_meow' to the server.
- */
-  $('#register-new-player').on('submit', function startNewGame(e) {
-    e.preventDefault();
-    $('#register-new-player').hide();
-    $('.waiting-gif').css({
-      display: 'block'
-    });
-    message('Waiting for a second player to join.');
-    var username = $(this).find("input[name='username']").val() || "Anonymoose";
-    localStorage.setItem('username', username);
-
-    socket.emit( "i_want_to_play_right_meow", storedPlayerInfo() );
-    return false;
   });
 
 /**
@@ -127,7 +109,7 @@
   function updateDisplay(game) {
     updateBoardDisplay(game.boardState, game.winner);
     displayNextBoard(game);
-    playerList(game.players);
+    PlayerList(game.players);
     console.log(me());
     if (!me()) {
       message('Spectating ' + game.players[0].username + ' vs. ' + game.players[1].username);
@@ -240,37 +222,51 @@
   });
 
   $('.resetButton').on('click', function resetButton() {
-    playAgain();
-    socket.emit("i_want_to_play_right_meow", storedPlayerInfo());
+    goToLobby();
   });
 
   function message(messageString) {
     $('.message').text(messageString);
   }
 
-  function playAgain() {
-    // $('div').text('');
+  function goToLobby() {
     $('.XWinsTheGame').hide().text('X');
     $('.OWinsTheGame').hide().text('O');
     $('.CWinsTheGame').hide().text('C');
     $ui.hide();
-    // $('.XWins').text('X');
-    // $('.OWins').text('O');
-    // $('.CWins').text('C');
-    // $('.outer').removeClass('XWinner');
-    // $('.outer').removeClass('OWinner');
-    // $('.outer').removeClass('CWinner');
-    // $('section').removeClass('nextBoard');
-    $('.new-game').hide();
-    $('.resetButton').hide();
-    $('.waiting-gif').css({
+    $('.new-game').css({
       display: 'block'
     });
-    message('Waiting for a second player to join.');
+    $('#players').hide();
+    $('.resetButton').hide();
+    $('.waiting-gif').hide()
+    history.pushState('', PAGETITLE, "/");
+    message('Welcome to Meta Tac Toe');
   }
 
   function storedPlayerInfo() {
     return { username: localStorage.getItem("username"), id: localStorage.getItem("userID") };
   }
 
+  function handleStartGameForm(gameStartData){
+    $('.new-game').hide();
+    $('#players').show();
+    $('.waiting-gif').css({
+      display: 'block'
+    });
+
+    message('Waiting for a second player to join.');
+    localStorage.setItem('username', gameStartData.username);
+
+    socket.emit( "i_want_to_play_right_meow", { player: storedPlayerInfo(), computer: gameStartData.computer } );
+  }
+
+  const initalUsername = localStorage.getItem("username") || "Anonymoose";
+
+  ReactDOM.render(
+    <div>
+      <GameStartForm initalUsername={initalUsername} submit={handleStartGameForm}/>
+    </div>,
+    document.getElementsByClassName('new-game')[0]
+  );
 })(io);
