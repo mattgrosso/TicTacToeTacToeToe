@@ -15,7 +15,11 @@ class Board extends React.Component {
     render() {
         const { winner, playable, nextBoard } = this.props;
         const playableBoards = POSITIONS.map(pos => (
-            <InnerBoard position={pos} innerGame={this.props.game[pos]} playable={playable} />
+            <InnerBoard
+                position={pos}
+                innerGame={this.props.game[pos]}
+                playable={playable}
+            />
         ));
 
         let winnerElement;
@@ -36,10 +40,11 @@ class Board extends React.Component {
             };
         }
 
-
-
         return (
-            <section style={style} className={`gameboard ${nextBoard ? "" : "nextBoard"}`}>
+            <section
+                style={style}
+                className={`gameboard ${nextBoard ? "" : "nextBoard"}`}
+            >
                 {winnerElement}
                 {playableBoards}
             </section>
