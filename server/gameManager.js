@@ -1,4 +1,5 @@
 const Game = require("./game");
+const track = require("./lib/track");
 let currentGames = [];
 
 function findGameById(gameID) {
@@ -49,6 +50,7 @@ function bindSocketToGame(socket, game) {
   socket.join(game.id);
   socket.on("game_update", function(move) {
     console.log(game.id, socket.playerInfo.username, move);
+    track(socket.playerInfo.id, "game_play", "game_update");
     game.saveMove(move);
 
     let computer = game.playerByID("computer");

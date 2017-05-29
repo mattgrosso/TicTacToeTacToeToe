@@ -1,6 +1,7 @@
 const uuid = require("node-uuid");
 const GameManger = require("../gameManager");
 const shuffle = require("../lib/shuffle");
+const track = require("../lib/track");
 
 module.exports = function(io) {
   var pendingPlayers = [];
@@ -45,6 +46,7 @@ module.exports = function(io) {
     const playerInfo = data.player;
     const socket = this;
 
+    track(playerInfo.id, "game_play", "i_want_to_play_right_meow");
     console.log("playerinfo: ", playerInfo);
     socket.playerInfo = playerInfo;
 
