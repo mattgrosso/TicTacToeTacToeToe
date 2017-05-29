@@ -122,7 +122,11 @@
     );
 
     // displayNextBoard(game);
-    PlayerList(game.players);
+    ReactDOM.render(
+      <PlayerList players={game.players} />,
+      document.getElementById("players")
+    )
+
     console.log(me());
     if (!me()) {
       message(
