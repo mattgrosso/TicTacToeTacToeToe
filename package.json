@@ -34,6 +34,11 @@
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.23.0",
     "babel-preset-env": "^1.1.11",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-contrib-clean": "^1.0.0",
