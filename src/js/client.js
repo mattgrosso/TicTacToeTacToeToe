@@ -116,6 +116,7 @@
       <Board game={game.boardState} />,
       document.getElementById('gameboard-display')
     );
+
     displayNextBoard(game);
     PlayerList(game.players);
     console.log(me());

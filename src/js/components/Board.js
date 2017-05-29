@@ -14,12 +14,12 @@ const POSITIONS = [
 class Board extends React.Component {
   render() {
     const playableBoards = POSITIONS.map(pos => (
-      <InnerBoard position={pos} game={this.props.game[pos]} />
+      <InnerBoard position={pos} innerGame={this.props.game[pos]} />
     ));
     return (
-      <div>
+      <section>
         {playableBoards}
-      </div>
+      </section>
     );
   }
 }

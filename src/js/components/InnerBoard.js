@@ -2,10 +2,12 @@
 
 class InnerBoard extends React.Component {
   render() {
-    const { position, game } = this.props;
-    const playableSquares = POSITIONS.map(pos => <div className={`inner ${pos}`}>
-      {game[pos]}
-    </div>);
+    const { position, innerGame } = this.props;
+    const playableSquares = POSITIONS.map(pos => (
+      <div className={`inner ${pos}`}>
+        {innerGame[pos]}
+      </div>
+    ));
     return (
       <section className={`outer ${position}`}>
         <div className="XWins">X</div>
