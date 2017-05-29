@@ -110,13 +110,12 @@
   });
 
   function updateDisplay(game) {
-    // updateBoardDisplay(game.boardState, game.winner);
 
     ReactDOM.render(
       <Board
         game={game.boardState}
         winner={game.winner}
-        playable={!me() || !myTurn()}
+        active={me() && myTurn()}
         nextBoard={game.nextBoard}
         />,
       document.getElementById('gameboard-display')
@@ -149,84 +148,6 @@
 
   function myTurn() {
     return me().symbol === game.currentPlayer;
-  }
-
-  /**
- * This function needs to take in a boardstate object and render the appropriate
- * board on the screen. Up until now how did I do that? When a position was clicked,
- * I would set the innerText of the div with that class to the current player's
- * symbol.
- * How do I do it now?
- * How can I grab the appropriate div based on the info in the boardstate?
- */
-  function updateBoardDisplay(boardstate, winner) {
-    var template = $("#gameboard-template").clone();
-    $ui.html(template.html());
-    template = null;
-
-    if (!me() || !myTurn()) {
-      $ui.css({
-        opacity: "0.5"
-      });
-      $ui.find(".inner").css({
-        cursor: "not-allowed"
-      });
-    } else {
-      $ui.css({
-        opacity: "1"
-      });
-    }
-
-    if (winner) {
-      $ui.find("." + winner + "WinsTheGame").css({
-        display: "block"
-      });
-      message(winner + "wins the game!");
-      return;
-    }
-
-    var arrayOfProperties = [
-      Object.getOwnPropertyNames(boardstate.topLeft),
-      Object.getOwnPropertyNames(boardstate.topCenter),
-      Object.getOwnPropertyNames(boardstate.topRight),
-      Object.getOwnPropertyNames(boardstate.middleLeft),
-      Object.getOwnPropertyNames(boardstate.middleCenter),
-      Object.getOwnPropertyNames(boardstate.middleRight),
-      Object.getOwnPropertyNames(boardstate.bottomLeft),
-      Object.getOwnPropertyNames(boardstate.bottomCenter),
-      Object.getOwnPropertyNames(boardstate.bottomRight)
-    ];
-
-    arrayOfProperties[0].unshift("topLeft");
-    arrayOfProperties[1].unshift("topCenter");
-    arrayOfProperties[2].unshift("topRight");
-    arrayOfProperties[3].unshift("middleLeft");
-    arrayOfProperties[4].unshift("middleCenter");
-    arrayOfProperties[5].unshift("middleRight");
-    arrayOfProperties[6].unshift("bottomLeft");
-    arrayOfProperties[7].unshift("bottomCenter");
-    arrayOfProperties[8].unshift("bottomRight");
-
-    arrayOfProperties.forEach(function loopEachPropertyArray(
-      eachPropertyArray
-    ) {
-      eachPropertyArray.forEach(function loopEachProperty(each, i) {
-        if (i === 0) {
-          return;
-        } else if (each === "boardComplete") {
-          return;
-        } else if (each === "winner") {
-          $ui
-            .find(".outer." + eachPropertyArray[0])
-            .addClass(boardstate[eachPropertyArray[0]].winner + "Winner");
-        } else {
-          $ui.find(".outer." + eachPropertyArray[0]).children("." + each)[
-            0
-          ].innerText =
-            boardstate[eachPropertyArray[0]][each];
-        }
-      });
-    });
   }
 
   function displayNextBoard(game) {

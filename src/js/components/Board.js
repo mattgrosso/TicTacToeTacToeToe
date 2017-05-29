@@ -13,12 +13,13 @@ const POSITIONS = [
 
 class Board extends React.Component {
     render() {
-        const { winner, playable, nextBoard } = this.props;
+        const { winner, active, nextBoard } = this.props;
         const playableBoards = POSITIONS.map(pos => (
             <InnerBoard
                 position={pos}
                 innerGame={this.props.game[pos]}
-                playable={playable}
+                playable={(!nextBoard && active) || (nextBoard === pos && active)}
+                nextBoard={nextBoard === pos}
             />
         ));
 
@@ -30,13 +31,13 @@ class Board extends React.Component {
         }
 
         let style;
-        if (playable) {
+        if (active) {
             style = {
-                opacity: "0.5"
+                opacity: "1"
             };
         } else {
             style = {
-                opacity: "1"
+                opacity: "0.5"
             };
         }
 
