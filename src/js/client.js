@@ -1,73 +1,72 @@
-(function(io) {
-    "use strict";
-    var socket = io({
-        transports: ["websocket"]
-    });
-    let game;
-    const $ui = $("#gameboard-display");
-    const PAGETITLE = "MetaTacToe";
+(function (io) {
+  const socket = io({
+    transports: ['websocket'],
+  });
+  let game;
+  const $ui = $('#gameboard-display');
+  const PAGETITLE = 'MetaTacToe';
 
-    /**
+  /**
  * This listens for the 'connected' event and just logs what the server says.
  */
-    socket.on("connected", function handleConnection(id) {
-        if (!localStorage.getItem("userID")) {
-            localStorage.setItem("userID", id);
-        }
-        var pathComponents = window.location.pathname.split("/");
-        if (pathComponents[1] === "game" && pathComponents[2]) {
-            var gameID = pathComponents[2];
-            socket.emit("rejoin_game", {
-                gameID: gameID,
-                playerInfo: storedPlayerInfo()
-            });
-        }
+  socket.on('connected', (id) => {
+    if (!localStorage.getItem('userID')) {
+      localStorage.setItem('userID', id);
+    }
+    const pathComponents = window.location.pathname.split('/');
+    if (pathComponents[1] === 'game' && pathComponents[2]) {
+      const gameID = pathComponents[2];
+      socket.emit('rejoin_game', {
+        gameID,
+        playerInfo: storedPlayerInfo(),
+      });
+    }
 
-        console.log("Connected to Server");
-    });
+    console.log('Connected to Server');
+  });
 
-    /**
+  /**
  *
  */
-    socket.on("exception", function handleErrors(error) {
-        message(error.msg);
-        if (error.type === "game_not_found") {
-            history.pushState("", PAGETITLE, "/");
-        }
-    });
+  socket.on('exception', (error) => {
+    message(error.msg);
+    if (error.type === 'game_not_found') {
+      history.pushState('', PAGETITLE, '/');
+    }
+  });
 
-    /**
+  /**
  * This listens for the 'game_start' event and sets the boardState var to the
  * one sent from the server.
  */
-    socket.on("game_start", function handleGameStart(serverGame) {
-        game = serverGame;
-        history.pushState("", PAGETITLE, "/game/" + game.id);
-        $(".waiting-gif").hide();
-        $(".game-rules-on-page")
-            .removeClass("game-rules-on-page")
-            .addClass("game-rules-sidebar")
-            .addClass("hidden-left");
-        $(".new-game").hide();
-        $ui.show();
-        $(".resetButton").show();
-        updateDisplay(game);
-    });
+  socket.on('game_start', (serverGame) => {
+    game = serverGame;
+    history.pushState('', PAGETITLE, `/game/${game.id}`);
+    $('.waiting-gif').hide();
+    $('.game-rules-on-page')
+      .removeClass('game-rules-on-page')
+      .addClass('game-rules-sidebar')
+      .addClass('hidden-left');
+    $('.new-game').hide();
+    $ui.show();
+    $('.resetButton').show();
+    updateDisplay(game);
+  });
 
-    /**
+  /**
  * This listens for the 'game_update' event and runs the saveAndDisplayMove fn
  * to modify the user's board based on current game state.
  */
-    socket.on("game_update", function(serverGame) {
-        game = serverGame;
-        updateDisplay(game);
-    });
+  socket.on('game_update', (serverGame) => {
+    game = serverGame;
+    updateDisplay(game);
+  });
 
-    socket.on("error", function displayError(errorMessage) {
-        message(errorMessage);
-    });
+  socket.on('error', (errorMessage) => {
+    message(errorMessage);
+  });
 
-    /**
+  /**
  * Anytime a div is clicked this records the outerPosition and innerPosition of
  * the click and checks to see three things:
  * 1. If we have a nextboard established and the outerPosition clicked does not
@@ -79,151 +78,135 @@
  * sends the outerPosition and innerPosition to the server. We can call this a
  * 'move'.
  */
-    $ui.on("click", "div", function markASquare() {
-        var outerPosition = $(this).parent()[0].classList[1];
-        var innerPosition = $(this)[0].classList[1];
+  $ui.on('click', 'div', function markASquare() {
+    const outerPosition = $(this).parent()[0].classList[1];
+    const innerPosition = $(this)[0].classList[1];
 
-        // Unless it is my move.
-        if (!myTurn()) {
-            return;
-        }
-
-        if (game.nextBoard && outerPosition !== game.nextBoard) {
-            message("You need to play on a different board.");
-            $ui
-                .find(".nextBoard")
-                .append(
-                    $("<aside>Play on this board</aside>").addClass("thisOne")
-                );
-            setTimeout(function() {
-                $ui.find(".thisOne").remove();
-            }, 750);
-        } else if (game.boardState[outerPosition].boardComplete) {
-            message("That game is complete. Try a different board.");
-        } else if (game.boardState[outerPosition][innerPosition]) {
-            message("Someone else already went there.");
-        } else {
-            console.log("sending move emit");
-            socket.emit("game_update", {
-                outerPosition: outerPosition,
-                innerPosition: innerPosition
-            });
-        }
-    });
-
-    function updateDisplay(game) {
-        ReactDOM.render(
-            <Game>
-                <PlayerList players={game.players} />
-
-                <Board
-                    game={game.boardState}
-                    winner={game.winner}
-                    active={me() && myTurn()}
-                    nextBoard={game.nextBoard}
-                />
-            </Game>,
-            document.getElementById("gameboard-display")
-        );
-
-        console.log(me());
-        if (!me()) {
-            message(
-                "Spectating " +
-                    game.players[0].username +
-                    " vs. " +
-                    game.players[1].username
-            );
-            return;
-        }
-        if (myTurn()) {
-            message("Your Turn. You are " + me().symbol + ".");
-        } else {
-            message("Waiting for " + game.currentPlayer);
-        }
+    // Unless it is my move.
+    if (!myTurn()) {
+      return;
     }
 
-    function me() {
-        return game.players.find(function(el) {
-            return el.id === localStorage.getItem("userID");
-        });
+    if (game.nextBoard && outerPosition !== game.nextBoard) {
+      message('You need to play on a different board.');
+      $ui.find('.nextBoard').append($('<aside>Play on this board</aside>').addClass('thisOne'));
+      setTimeout(() => {
+        $ui.find('.thisOne').remove();
+      }, 750);
+    } else if (game.boardState[outerPosition].boardComplete) {
+      message('That game is complete. Try a different board.');
+    } else if (game.boardState[outerPosition][innerPosition]) {
+      message('Someone else already went there.');
+    } else {
+      console.log('sending move emit');
+      socket.emit('game_update', {
+        outerPosition,
+        innerPosition,
+      });
     }
+  });
 
-    function myTurn() {
-        return me().symbol === game.currentPlayer;
-    }
-
-    function displayNextBoard(game) {
-        if (!game.nextBoard) {
-            $ui.find("section").addClass("nextBoard");
-        } else {
-            $ui.find("section").removeClass("nextBoard");
-            $ui.find(".outer." + game.nextBoard).addClass("nextBoard");
-        }
-    }
-
-    $(".rules-button").on("click", function rulesButton() {
-        $(this)
-            .html('<i class="fa fa-times" aria-hidden="true"></i>')
-            .attr("title", "Close Rules");
-        $(".game-rules-sidebar").toggleClass("hidden-left");
-        $(".hidden-left .rules-button")
-            .html('<i class="fa fa-question-circle" aria-hidden="true"></i>')
-            .attr("title", "Learn to Play");
-    });
-
-    $(".resetButton").on("click", function resetButton() {
-        goToLobby();
-    });
-
-    function message(messageString) {
-        $(".message").text(messageString);
-    }
-
-    function goToLobby() {
-        $ui.hide();
-        $(".new-game").css({
-            display: "block"
-        });
-        $("#players").hide();
-        $(".resetButton").hide();
-        $(".waiting-gif").hide();
-        history.pushState("", PAGETITLE, "/");
-        message("Welcome to Meta Tac Toe");
-    }
-
-    function storedPlayerInfo() {
-        return {
-            username: localStorage.getItem("username"),
-            id: localStorage.getItem("userID")
-        };
-    }
-
-    function handleStartGameForm(gameStartData) {
-        $(".new-game").hide();
-        $("#players").show();
-        $(".waiting-gif").css({
-            display: "block"
-        });
-
-        message("Waiting for a second player to join.");
-        localStorage.setItem("username", gameStartData.username);
-
-        socket.emit("i_want_to_play_right_meow", {
-            player: storedPlayerInfo(),
-            computer: gameStartData.computer
-        });
-    }
-
-    const initalUsername = localStorage.getItem("username") || "Anonymoose";
-
+  function updateDisplay(game) {
     ReactDOM.render(
-        <div>
-            <GameStartForm
-                initalUsername={initalUsername}
-                submit={handleStartGameForm}
-            />
-        </div>,
-        document.getElementsByClassName("new-game")[0]
+      <Game>
+        <PlayerList players={game.players} />
+
+        <Board
+          game={game.boardState}
+          winner={game.winner}
+          active={me() && myTurn()}
+          nextBoard={game.nextBoard}
+        />
+      </Game>,
+      document.getElementById('gameboard-display'),
     );
-})(io);
+
+    console.log(me());
+    if (!me()) {
+      message(`Spectating ${game.players[0].username} vs. ${game.players[1].username}`);
+      return;
+    }
+    if (myTurn()) {
+      message(`Your Turn. You are ${me().symbol}.`);
+    } else {
+      message(`Waiting for ${game.currentPlayer}`);
+    }
+  }
+
+  function me() {
+    return game.players.find(el => el.id === localStorage.getItem('userID'));
+  }
+
+  function myTurn() {
+    return me().symbol === game.currentPlayer;
+  }
+
+  function displayNextBoard(game) {
+    if (!game.nextBoard) {
+      $ui.find('section').addClass('nextBoard');
+    } else {
+      $ui.find('section').removeClass('nextBoard');
+      $ui.find(`.outer.${game.nextBoard}`).addClass('nextBoard');
+    }
+  }
+
+  $('.rules-button').on('click', function rulesButton() {
+    $(this).html('<i class="fa fa-times" aria-hidden="true"></i>').attr('title', 'Close Rules');
+    $('.game-rules-sidebar').toggleClass('hidden-left');
+    $('.hidden-left .rules-button')
+      .html('<i class="fa fa-question-circle" aria-hidden="true"></i>')
+      .attr('title', 'Learn to Play');
+  });
+
+  $('.resetButton').on('click', () => {
+    goToLobby();
+  });
+
+  function message(messageString) {
+    $('.message').text(messageString);
+  }
+
+  function goToLobby() {
+    $ui.hide();
+    $('.new-game').css({
+      display: 'block',
+    });
+    $('#players').hide();
+    $('.resetButton').hide();
+    $('.waiting-gif').hide();
+    history.pushState('', PAGETITLE, '/');
+    message('Welcome to Meta Tac Toe');
+  }
+
+  function storedPlayerInfo() {
+    return {
+      username: localStorage.getItem('username'),
+      id: localStorage.getItem('userID'),
+    };
+  }
+
+  function handleStartGameForm(gameStartData) {
+    $('.new-game').hide();
+    $('#players').show();
+    $('.waiting-gif').css({
+      display: 'block',
+    });
+
+    message('Waiting for a second player to join.');
+    localStorage.setItem('username', gameStartData.username);
+
+    socket.emit('i_want_to_play_right_meow', {
+      player: storedPlayerInfo(),
+      computer: gameStartData.computer,
+    });
+  }
+
+  const initalUsername = localStorage.getItem('username') || 'Anonymoose';
+
+  ReactDOM.render(
+    <div>
+      <GameStartForm initalUsername={initalUsername} submit={handleStartGameForm} />
+    </div>,
+    document.getElementsByClassName('new-game')[0],
+  );
+}(io));

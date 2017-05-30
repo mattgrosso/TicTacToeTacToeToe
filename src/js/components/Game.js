@@ -4,6 +4,6 @@ class Game extends React.Component {
       <div>
         {this.props.children}
       </div>
-    )
+    );
   }
 }

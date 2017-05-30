@@ -7,20 +7,20 @@
    */
 
 class PlayerList extends React.Component {
-    render() {
-        const listItems = this.props.players.map(player => {
-            let onlineStatus = player.status.online ? "online" : "offline";
-            const listElement = (
-                <li className={onlineStatus} key={player.id}>
-                    {player.symbol} {player.username}
-                </li>
-            );
-            return listElement;
-        });
-        return (
-            <ul id="players">
-                {listItems}
-            </ul>
-        );
-    }
+  render() {
+    const listItems = this.props.players.map((player) => {
+      const onlineStatus = player.status.online ? 'online' : 'offline';
+      const listElement = (
+        <li className={onlineStatus} key={player.id}>
+          {player.symbol} {player.username}
+        </li>
+      );
+      return listElement;
+    });
+    return (
+      <ul id="players">
+        {listItems}
+      </ul>
+    );
+  }
 }

@@ -3,7 +3,7 @@ class GameStartForm extends React.Component {
     super(props);
     this.state = {
       username: this.props.initalUsername,
-      computer: false
+      computer: false,
     };
     console.log(this.state);
   }
@@ -37,11 +37,7 @@ class GameStartForm extends React.Component {
           onChange={this.handleChange}
         />
         <label for="#play-a-computer">
-          <input
-            id="play-a-computer"
-            type="checkbox"
-            onChange={this.handleToggleComputer}
-          />
+          <input id="play-a-computer" type="checkbox" onChange={this.handleToggleComputer} />
           Play a Computer
         </label>
         <button className="new-game-button" type="submit" name="button">

@@ -4,7 +4,9 @@
  */
 
 function shuffle(a) {
-  var j, x, i;
+  let j,
+    x,
+    i;
   for (i = a.length; i; i--) {
     j = Math.floor(Math.random() * i);
     x = a[i - 1];
