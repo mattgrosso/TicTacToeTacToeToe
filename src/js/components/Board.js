@@ -18,6 +18,7 @@ class Board extends React.Component {
       <InnerBoard
         position={pos}
         innerGame={this.props.game[pos]}
+        key={`o${pos}`}
         playable={(!nextBoard && active) || (nextBoard === pos && active)}
         nextBoard={nextBoard === pos}
       />

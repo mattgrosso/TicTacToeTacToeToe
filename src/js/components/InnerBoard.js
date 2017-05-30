@@ -15,7 +15,7 @@ class InnerBoard extends React.Component {
     }
 
     const playableSquares = POSITIONS.map(pos => (
-      <div style={style} className={`inner ${pos}`}>
+      <div style={style} key={`i${pos}`} className={`inner ${pos}`}>
         {innerGame[pos]}
       </div>
     ));
