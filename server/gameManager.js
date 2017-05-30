@@ -35,7 +35,7 @@ function computerMove(game) {
     console.log(
       'Computer chose a move that was not allowed',
       move,
-      game.boardState[move.outerPosition][move.innerPosition],
+      game.boardState[move.outerPosition][move.innerPosition]
     );
     return computerMove(game);
   }

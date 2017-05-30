@@ -79,7 +79,7 @@ module.exports = function (io) {
 
     console.log(
       'Pending Players',
-      pendingPlayers.map(el => el.playerInfo),
+      pendingPlayers.map(el => el.playerInfo)
     );
 
     if (pendingPlayers.length >= 2) {
