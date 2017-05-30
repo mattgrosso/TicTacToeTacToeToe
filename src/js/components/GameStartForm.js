@@ -28,7 +28,8 @@ class GameStartForm extends React.Component {
   render() {
     return (
       <form id="register-new-player" onSubmit={this.handleSubmit}>
-        <label for="">Username</label>
+        <label>
+          Username
         <input
           type="text"
           name="username"
@@ -36,8 +37,9 @@ class GameStartForm extends React.Component {
           placeholder="Anonymoose"
           onChange={this.handleChange}
         />
-        <label for="#play-a-computer">
-          <input id="play-a-computer" type="checkbox" onChange={this.handleToggleComputer} />
+        </label>
+        <label>
+          <input type="checkbox" onChange={this.handleToggleComputer} />
           Play a Computer
         </label>
         <button className="new-game-button" type="submit" name="button">
