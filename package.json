@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
-    "dev": "webpack --watch",
+    "dev-webpack": "webpack --watch",
+    "dev-server": "nodemon .",
     "postinstall": "webpack -p"
   },
   "repository": {
