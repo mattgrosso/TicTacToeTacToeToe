@@ -1,5 +1,7 @@
-// import React, { Component } from 'react';
-const POSITIONS = [
+import React from 'react';
+import InnerBoard from './InnerBoard'
+
+export const POSITIONS = [
   'topLeft',
   'topCenter',
   'topRight',
@@ -51,4 +53,4 @@ class Board extends React.Component {
   }
 }
 
-// export default Board;
+export default Board;

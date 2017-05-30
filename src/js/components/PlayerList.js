@@ -5,6 +5,7 @@
    * also set a dynamic className (NOT class) of the online/offline status of the player.
    * @param {Array} props
    */
+import React from 'react';
 
 class PlayerList extends React.Component {
   render() {
@@ -24,3 +25,5 @@ class PlayerList extends React.Component {
     );
   }
 }
+
+export default PlayerList;

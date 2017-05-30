@@ -1,3 +1,5 @@
+import React from "react";
+
 class GameStartForm extends React.Component {
   constructor(props) {
     super(props);
@@ -30,13 +32,13 @@ class GameStartForm extends React.Component {
       <form id="register-new-player" onSubmit={this.handleSubmit}>
         <label>
           Username
-        <input
-          type="text"
-          name="username"
-          value={this.state.username}
-          placeholder="Anonymoose"
-          onChange={this.handleChange}
-        />
+          <input
+            type="text"
+            name="username"
+            value={this.state.username}
+            placeholder="Anonymoose"
+            onChange={this.handleChange}
+          />
         </label>
         <label>
           <input type="checkbox" onChange={this.handleToggleComputer} />
@@ -49,3 +51,5 @@ class GameStartForm extends React.Component {
     );
   }
 }
+
+export default GameStartForm;

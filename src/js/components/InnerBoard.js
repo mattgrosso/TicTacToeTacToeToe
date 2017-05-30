@@ -1,4 +1,5 @@
-// import React, { Component } from "react";
+import React from 'react';
+import { POSITIONS } from './Board';
 
 class InnerBoard extends React.Component {
   render() {
@@ -33,4 +34,4 @@ class InnerBoard extends React.Component {
   }
 }
 
-// export default InnerBoard;
+export default InnerBoard;
