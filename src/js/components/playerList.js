@@ -18,7 +18,7 @@ class PlayerList extends React.Component {
             return listElement;
         });
         return (
-            <ul>
+            <ul id="players">
                 {listItems}
             </ul>
         );
