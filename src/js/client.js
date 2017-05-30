@@ -181,9 +181,6 @@
     }
 
     function goToLobby() {
-        $(".XWinsTheGame").hide().text("X");
-        $(".OWinsTheGame").hide().text("O");
-        $(".CWinsTheGame").hide().text("C");
         $ui.hide();
         $(".new-game").css({
             display: "block"
