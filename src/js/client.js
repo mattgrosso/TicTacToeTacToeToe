@@ -12,8 +12,7 @@ const socket = io({
 });
 
 let game;
-const $ui = $('#gameboard-display');
-const PAGETITLE = 'MetaTacToe';
+export const PAGETITLE = 'MetaTacToe';
 
 /**
  * This listens for the 'connected' event and just logs what the server says.
@@ -67,43 +66,6 @@ socket.on('error', (errorMessage) => {
   message(errorMessage);
 });
 
-function me() {
-  return game.players.find(el => el.id === localStorage.getItem('userID'));
-}
-
-function myTurn() {
-  return me().symbol === game.currentPlayer;
-}
-
-$('.rules-button').on('click', function rulesButton() {
-  $(this)
-    .html('<i class="fa fa-times" aria-hidden="true"></i>')
-    .attr('title', 'Close Rules');
-  $('.game-rules-sidebar').toggleClass('hidden-left');
-  $('.hidden-left .rules-button')
-    .html('<i class="fa fa-question-circle" aria-hidden="true"></i>')
-    .attr('title', 'Learn to Play');
-});
-
-$('.resetButton').on('click', () => {
-  goToLobby();
-});
-
-function message(messageString) {
-  $('.message').text(messageString);
-}
-
-function goToLobby() {
-  $ui.hide();
-  $('.new-game').css({
-    display: 'block',
-  });
-  $('#players').hide();
-  $('.resetButton').hide();
-  history.pushState('', PAGETITLE, '/');
-  message('Welcome to Meta Tac Toe');
-}
-
 function storedPlayerInfo() {
   return {
     username: localStorage.getItem('username'),
@@ -135,7 +97,7 @@ function renderApp(game, path = window.location.pathname) {
     <App
       game={game}
       path={path}
-          initalUsername={initalUsername}
+      initalUsername={initalUsername}
       handleStartGameForm={handleStartGameForm}
       socket={socket}
     />,
