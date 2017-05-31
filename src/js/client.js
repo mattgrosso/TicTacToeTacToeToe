@@ -2,8 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import io from 'socket.io-client';
 
-import GameStartForm from './components/GameStartForm';
-import Game from './components/Game';
+import App from './components/App';
 
 import '../scss/main.scss'
 
@@ -132,18 +131,15 @@ function handleStartGameForm(gameStartData) {
 
 const initalUsername = localStorage.getItem('username') || 'Anonymoose';
 
-function renderApp(game) {
+function renderApp(game, path = window.location.pathname) {
   ReactDOM.render(
-    <div>
-      {window.location.pathname == '/' &&
-        <GameStartForm
+    <App
+      game={game}
+      path={path}
           initalUsername={initalUsername}
-          submit={handleStartGameForm}
-        />}
-      {window.location.pathname.includes('/game') &&
-        game &&
-        <Game game={game} socket={socket} />}
-    </div>,
+      handleStartGameForm={handleStartGameForm}
+      socket={socket}
+    />,
     document.getElementById('root'),
   );
 }

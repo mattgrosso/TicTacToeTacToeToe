@@ -6,7 +6,8 @@ import Board from './Board';
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { message: null };
+
+    this.flashMessage = props.flashMessage;
     this.makeMove = this.makeMove.bind(this);
     this.goToLobby = this.goToLobby.bind(this);
   componentDidMount() {
@@ -17,22 +18,17 @@ class Game extends React.Component {
     const { game } = this.props;
 
     if (!this.player()) {
-      this.message(
+      this.flashMessage(
         `Spectating ${game.players[0].username} vs. ${game.players[1].username}`,
       );
       return;
     }
 
     if (this.playerTurn()) {
-      this.message(`Your Turn. You are ${this.player().symbol}.`);
+      this.flashMessage(`Your Turn. You are ${this.player().symbol}.`);
     } else {
-      this.message(`Waiting for ${game.currentPlayer}`);
+      this.flashMessage(`Waiting for ${game.currentPlayer}`);
     }
-  }
-
-  message(msg) {
-    this.setState({ message: msg });
-    setTimeout(() => this.setState({ message: null }), 750);
   }
 
   player() {
@@ -66,7 +62,7 @@ class Game extends React.Component {
     }
 
     if (game.nextBoard && outerPosition !== game.nextBoard) {
-      this.message('You need to play on a different board.');
+      this.flashMessage('You need to play on a different board.');
 
       // TODO: How does this get moved...?  its transisent state.
       $(document)
@@ -76,9 +72,9 @@ class Game extends React.Component {
         $(document).find('.thisOne').remove();
       }, 750);
     } else if (game.boardState[outerPosition].boardComplete) {
-      this.message('That game is complete. Try a different board.');
+      this.flashMessage('That game is complete. Try a different board.');
     } else if (game.boardState[outerPosition][innerPosition]) {
-      this.message('Someone else already went there.');
+      this.flashMessage('Someone else already went there.');
     } else {
       socket.emit('game_update', {
         outerPosition,
@@ -93,12 +89,10 @@ class Game extends React.Component {
 
   render() {
     const { game } = this.props;
-    const { message } = this.state;
 
     return (
       <section>
         {/* TODO: Move this into a message component*/}
-        {message && <p>{message}</p>}
         <LeaveGame leave={this.goToLobby} />
         <PlayerList players={game.players} />
 
