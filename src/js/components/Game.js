@@ -7,9 +7,10 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = { message: null };
-    this.displayRelevantMessages();
     this.makeMove = this.makeMove.bind(this);
     this.goToLobby = this.goToLobby.bind(this);
+  componentDidMount() {
+    this.displayRelevantMessages();
   }
 
   displayRelevantMessages() {
