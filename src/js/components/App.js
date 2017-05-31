@@ -35,6 +35,7 @@ class App extends Component {
           <div>
             <Message message="Waiting for a second player to join." />
             <Waiting />
+            <GameRules shown={true} sidebar={false} />
           </div>}
         {path.includes('/game') &&
           game &&
@@ -44,7 +45,7 @@ class App extends Component {
               socket={socket}
               flashMessage={this.flashMessage}
             />
-            <GameRules />
+            <GameRules sidebar={true} shown={false}/>
           </div>}
       </div>
     );
