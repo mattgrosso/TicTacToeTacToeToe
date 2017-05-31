@@ -113,15 +113,6 @@ function myTurn() {
   return me().symbol === game.currentPlayer;
 }
 
-function displayNextBoard(game) {
-  if (!game.nextBoard) {
-    $ui.find('section').addClass('nextBoard');
-  } else {
-    $ui.find('section').removeClass('nextBoard');
-    $ui.find(`.outer.${game.nextBoard}`).addClass('nextBoard');
-  }
-}
-
 $('.rules-button').on('click', function rulesButton() {
   $(this)
     .html('<i class="fa fa-times" aria-hidden="true"></i>')
