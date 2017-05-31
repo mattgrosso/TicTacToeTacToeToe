@@ -59,7 +59,7 @@ socket.on('game_start', (serverGame) => {
   $('.new-game').hide();
   $ui.show();
   $('.resetButton').show();
-  updateDisplay(game);
+  renderApp(game);
 });
 
 /**
@@ -68,42 +68,12 @@ socket.on('game_start', (serverGame) => {
  */
 socket.on('game_update', (serverGame) => {
   game = serverGame;
-  updateDisplay(game);
+  renderApp(game);
 });
 
 socket.on('error', (errorMessage) => {
   message(errorMessage);
 });
-
-
-function updateDisplay(game) {
-  ReactDOM.render(
-    <Game>
-      <PlayerList players={game.players} />
-
-      <Board
-        game={game.boardState}
-        winner={game.winner}
-        active={me() && myTurn()}
-        nextBoard={game.nextBoard}
-      />
-    </Game>,
-    document.getElementById('gameboard-display'),
-  );
-
-  console.log(me());
-  if (!me()) {
-    message(
-      `Spectating ${game.players[0].username} vs. ${game.players[1].username}`,
-    );
-    return;
-  }
-  if (myTurn()) {
-    message(`Your Turn. You are ${me().symbol}.`);
-  } else {
-    message(`Waiting for ${game.currentPlayer}`);
-  }
-}
 
 function me() {
   return game.players.find(el => el.id === localStorage.getItem('userID'));
@@ -168,12 +138,20 @@ function handleStartGameForm(gameStartData) {
 
 const initalUsername = localStorage.getItem('username') || 'Anonymoose';
 
-ReactDOM.render(
-  <div>
-    <GameStartForm
-      initalUsername={initalUsername}
-      submit={handleStartGameForm}
-    />
-  </div>,
-  document.getElementsByClassName('new-game')[0],
-);
+function renderApp(game) {
+  ReactDOM.render(
+    <div>
+      {window.location.pathname == '/' &&
+        <GameStartForm
+          initalUsername={initalUsername}
+          submit={handleStartGameForm}
+        />}
+      {window.location.pathname.includes('/game') &&
+        game &&
+        <Game game={game} socket={socket} />}
+    </div>,
+    document.getElementById('root'),
+  );
+}
+
+renderApp(game);
