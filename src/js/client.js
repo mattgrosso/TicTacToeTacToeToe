@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import io from 'socket.io-client';
+import _hijackPushState from './utils/pushState';
 
 import App from './components/App';
 
@@ -39,7 +40,7 @@ socket.on('connected', (id) => {
 socket.on('exception', (error) => {
   message(error.msg);
   if (error.type === 'game_not_found') {
-    history.pushState('', PAGETITLE, '/');
+    goTo('/')
   }
 });
 
@@ -49,13 +50,7 @@ socket.on('exception', (error) => {
  */
 socket.on('game_start', (serverGame) => {
   game = serverGame;
-  history.pushState('', PAGETITLE, `/game/${game.id}`);
-  $('.game-rules-on-page')
-    .removeClass('game-rules-on-page')
-    .addClass('game-rules-sidebar')
-    .addClass('hidden-left');
-  $('.new-game').hide();
-  $ui.show();
+  goTo(`/game/${game.id}`);
   renderApp(game);
 });
 
@@ -117,16 +112,20 @@ function storedPlayerInfo() {
 }
 
 function handleStartGameForm(gameStartData) {
-  $('.new-game').hide();
-  $('#players').show();
+  goTo('/waiting');
 
-  message('Waiting for a second player to join.');
   localStorage.setItem('username', gameStartData.username);
 
   socket.emit('i_want_to_play_right_meow', {
     player: storedPlayerInfo(),
     computer: gameStartData.computer,
   });
+}
+
+function goTo(path) {
+  // Pass the path into the state.
+  // This is used because when a window history popstate event occurs the STATE is what is passed in to that event.
+  history.pushState(path, PAGETITLE, path);
 }
 
 const initalUsername = localStorage.getItem('username') || 'Anonymoose';
@@ -144,4 +143,16 @@ function renderApp(game, path = window.location.pathname) {
   );
 }
 
+// Handle the initial route
 renderApp(game);
+
+function navigated(event) {
+  console.log(
+    `location: ${document.location}, state: ${JSON.stringify(event.state)}`,
+  );
+
+  renderApp(game, event.state);
+}
+
+// Handle browser navigation events
+window.onpopstate = history.onpushstate = navigated;
