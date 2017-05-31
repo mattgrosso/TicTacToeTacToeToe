@@ -4,8 +4,6 @@ import io from 'socket.io-client';
 
 import GameStartForm from './components/GameStartForm';
 import Game from './components/Game';
-import PlayerList from './components/PlayerList';
-import Board from './components/Board';
 
 import '../scss/main.scss'
 
@@ -77,47 +75,6 @@ socket.on('error', (errorMessage) => {
   message(errorMessage);
 });
 
-/**
- * Anytime a div is clicked this records the outerPosition and innerPosition of
- * the click and checks to see three things:
- * 1. If we have a nextboard established and the outerPosition clicked does not
- *    match the nextboard it will change the message and append an aside on the
- *    correct board for 750ms.
- * 2. If the outerPosition board is already complete it says so in the message.
- * 3. If the spot clicked is already taken it says so in the message.
- * If it get's passed these three checks then it emits a 'game_update' event and
- * sends the outerPosition and innerPosition to the server. We can call this a
- * 'move'.
- */
-$ui.on('click', 'div', function markASquare() {
-  const outerPosition = $(this).parent()[0].classList[1];
-  const innerPosition = $(this)[0].classList[1];
-
-  // Unless it is my move.
-  if (!myTurn()) {
-    return;
-  }
-
-  if (game.nextBoard && outerPosition !== game.nextBoard) {
-    message('You need to play on a different board.');
-    $ui
-      .find('.nextBoard')
-      .append($('<aside>Play on this board</aside>').addClass('thisOne'));
-    setTimeout(() => {
-      $ui.find('.thisOne').remove();
-    }, 750);
-  } else if (game.boardState[outerPosition].boardComplete) {
-    message('That game is complete. Try a different board.');
-  } else if (game.boardState[outerPosition][innerPosition]) {
-    message('Someone else already went there.');
-  } else {
-    console.log('sending move emit');
-    socket.emit('game_update', {
-      outerPosition,
-      innerPosition,
-    });
-  }
-});
 
 function updateDisplay(game) {
   ReactDOM.render(

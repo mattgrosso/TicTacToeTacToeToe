@@ -3,7 +3,7 @@ import { POSITIONS } from './Board';
 
 class InnerBoard extends React.Component {
   render() {
-    const { position, innerGame, playable, nextBoard } = this.props;
+    const { position, innerGame, playable, nextBoard, makeMove } = this.props;
     let style;
     if (playable) {
       style = {
@@ -16,7 +16,12 @@ class InnerBoard extends React.Component {
     }
 
     const playableSquares = POSITIONS.map(pos => (
-      <div style={style} key={`i${pos}`} className={`inner ${pos}`}>
+      <div
+        style={style}
+        key={`i${pos}`}
+        className={`inner ${pos}`}
+        onClick={e => makeMove(e, position, pos)}
+      >
         {innerGame[pos]}
       </div>
     ));

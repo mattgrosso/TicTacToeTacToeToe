@@ -15,7 +15,7 @@ export const POSITIONS = [
 
 class Board extends React.Component {
   render() {
-    const { winner, active, nextBoard } = this.props;
+    const { winner, active, nextBoard, makeMove } = this.props;
     const playableBoards = POSITIONS.map(pos => (
       <InnerBoard
         position={pos}
@@ -23,6 +23,7 @@ class Board extends React.Component {
         key={`o${pos}`}
         playable={(!nextBoard && active) || (nextBoard === pos && active)}
         nextBoard={nextBoard === pos}
+        makeMove={makeMove}
       />
     ));
 
