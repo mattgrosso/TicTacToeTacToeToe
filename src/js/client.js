@@ -51,7 +51,6 @@ socket.on('exception', (error) => {
 socket.on('game_start', (serverGame) => {
   game = serverGame;
   history.pushState('', PAGETITLE, `/game/${game.id}`);
-  $('.waiting-gif').hide();
   $('.game-rules-on-page')
     .removeClass('game-rules-on-page')
     .addClass('game-rules-sidebar')
@@ -107,7 +106,6 @@ function goToLobby() {
   });
   $('#players').hide();
   $('.resetButton').hide();
-  $('.waiting-gif').hide();
   history.pushState('', PAGETITLE, '/');
   message('Welcome to Meta Tac Toe');
 }
@@ -122,9 +120,6 @@ function storedPlayerInfo() {
 function handleStartGameForm(gameStartData) {
   $('.new-game').hide();
   $('#players').show();
-  $('.waiting-gif').css({
-    display: 'block',
-  });
 
   message('Waiting for a second player to join.');
   localStorage.setItem('username', gameStartData.username);
