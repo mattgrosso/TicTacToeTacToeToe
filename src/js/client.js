@@ -58,7 +58,6 @@ socket.on('game_start', (serverGame) => {
     .addClass('hidden-left');
   $('.new-game').hide();
   $ui.show();
-  $('.resetButton').show();
   renderApp(game);
 });
 

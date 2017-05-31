@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerList from './PlayerList';
+import LeaveGame from './LeaveGame';
 import Board from './Board';
 
 class Game extends React.Component {
@@ -8,6 +9,7 @@ class Game extends React.Component {
     this.state = { message: null };
     this.displayRelevantMessages();
     this.makeMove = this.makeMove.bind(this);
+    this.goToLobby = this.goToLobby.bind(this);
   }
 
   displayRelevantMessages() {
@@ -84,6 +86,10 @@ class Game extends React.Component {
     }
   }
 
+  goToLobby() {
+    history.pushState('/', PAGETITLE, '/');
+  }
+
   render() {
     const { game } = this.props;
     const { message } = this.state;
@@ -92,6 +98,7 @@ class Game extends React.Component {
       <section>
         {/* TODO: Move this into a message component*/}
         {message && <p>{message}</p>}
+        <LeaveGame leave={this.goToLobby} />
         <PlayerList players={game.players} />
 
         <Board
