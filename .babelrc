@@ -6,5 +6,5 @@
     "react"
     // Transpile React components to JavaScript
   ],
-  "plugins": ["transform-react-jsx", "transform-class-properties"]
+  "plugins": ["transform-react-jsx", "transform-class-properties", "react-hot-loader/babel"]
 }
