@@ -65,14 +65,6 @@ class Game extends React.Component {
 
     if (game.nextBoard && outerPosition !== game.nextBoard) {
       this.flashMessage('You need to play on a different board.');
-
-      // TODO: How does this get moved...?  its transisent state.
-      $(document)
-        .find('.nextBoard')
-        .append($('<aside>Play on this board</aside>').addClass('thisOne'));
-      setTimeout(() => {
-        $(document).find('.thisOne').remove();
-      }, 750);
     } else if (game.boardState[outerPosition].boardComplete) {
       this.flashMessage('That game is complete. Try a different board.');
     } else if (game.boardState[outerPosition][innerPosition]) {

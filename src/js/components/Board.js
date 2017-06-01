@@ -1,5 +1,5 @@
 import React from 'react';
-import InnerBoard from './InnerBoard'
+import InnerBoard from './InnerBoard';
 
 export const POSITIONS = [
   'topLeft',
@@ -14,6 +14,19 @@ export const POSITIONS = [
 ];
 
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { highlightingNextBoard: false };
+    this.highlightNextBoard = this.highlightNextBoard.bind(this)
+  }
+
+  highlightNextBoard() {
+    this.setState({ highlightingNextBoard: true });
+    setTimeout(() => {
+      this.setState({ highlightingNextBoard: false });
+    }, 750);
+  }
+
   render() {
     const { winner, active, nextBoard, makeMove } = this.props;
     const playableBoards = POSITIONS.map(pos => (
@@ -24,6 +37,8 @@ class Board extends React.Component {
         playable={(!nextBoard && active) || (nextBoard === pos && active)}
         nextBoard={nextBoard === pos}
         makeMove={makeMove}
+        highlightNextBoard={this.highlightNextBoard}
+        highlightingNextBoard={this.state.highlightingNextBoard}
       />
     ));
 
@@ -46,7 +61,10 @@ class Board extends React.Component {
     }
 
     return (
-      <section style={style} className={`gameboard ${nextBoard ? '' : 'nextBoard'}`}>
+      <section
+        style={style}
+        className={`gameboard ${nextBoard ? '' : 'nextBoard'}`}
+      >
         {winnerElement}
         {playableBoards}
       </section>
