@@ -17,7 +17,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = { highlightingNextBoard: false };
-    this.highlightNextBoard = this.highlightNextBoard.bind(this)
+    this.highlightNextBoard = this.highlightNextBoard.bind(this);
   }
 
   highlightNextBoard() {
@@ -27,9 +27,28 @@ class Board extends React.Component {
     }, 750);
   }
 
-  render() {
+  visible() {
+    const { active } = this.props;
+    if (active) {
+      return {
+        opacity: '1',
+      };
+    }
+    return {
+      opacity: '0.5',
+    };
+  }
+
+  gameOverDisplay() {
+    const { winner } = this.props;
+    if (winner) {
+      return <div className="WinsTheGame">{winner}</div>;
+    }
+  }
+
+  boards() {
     const { winner, active, nextBoard, makeMove } = this.props;
-    const playableBoards = POSITIONS.map(pos => (
+    return POSITIONS.map(pos => (
       <InnerBoard
         position={pos}
         innerGame={this.props.game[pos]}
@@ -41,32 +60,18 @@ class Board extends React.Component {
         highlightingNextBoard={this.state.highlightingNextBoard}
       />
     ));
+  }
 
-    let winnerElement;
-    if (winner) {
-      winnerElement = <div className="WinsTheGame">{winner}</div>;
-    } else {
-      winnerElement = null;
-    }
-
-    let style;
-    if (active) {
-      style = {
-        opacity: '1',
-      };
-    } else {
-      style = {
-        opacity: '0.5',
-      };
-    }
+  render() {
+    const { nextBoard } = this.props;
 
     return (
       <section
-        style={style}
+        style={this.visible()}
         className={`gameboard ${nextBoard ? '' : 'nextBoard'}`}
       >
-        {winnerElement}
-        {playableBoards}
+        {this.gameOverDisplay()}
+        {this.boards()}
       </section>
     );
   }
