@@ -2,6 +2,7 @@ import React from 'react';
 import PlayerList from './PlayerList';
 import LeaveGame from './LeaveGame';
 import Board from './Board';
+import { goTo } from '../client';
 
 class Game extends React.Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class Game extends React.Component {
 
     this.flashMessage = props.flashMessage;
     this.makeMove = this.makeMove.bind(this);
-    this.goToLobby = this.goToLobby.bind(this);
+  }
+
   componentDidMount() {
     this.displayRelevantMessages();
   }
@@ -83,17 +85,12 @@ class Game extends React.Component {
     }
   }
 
-  goToLobby() {
-    history.pushState('/', PAGETITLE, '/');
-  }
-
   render() {
     const { game } = this.props;
 
     return (
       <section>
-        {/* TODO: Move this into a message component*/}
-        <LeaveGame leave={this.goToLobby} />
+        <LeaveGame leave={() => goTo("/")} />
         <PlayerList players={game.players} />
 
         <Board

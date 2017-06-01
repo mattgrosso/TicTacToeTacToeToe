@@ -84,7 +84,7 @@ function handleStartGameForm(gameStartData) {
   });
 }
 
-function goTo(path) {
+export function goTo(path) {
   // Pass the path into the state.
   // This is used because when a window history popstate event occurs the STATE is what is passed in to that event.
   history.pushState(path, PAGETITLE, path);
