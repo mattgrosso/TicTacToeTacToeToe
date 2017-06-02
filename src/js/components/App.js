@@ -22,20 +22,30 @@ class App extends Component {
   }
 
   render() {
-    const { game, path, initalUsername, handleStartGameForm, socket } = this.props;
+    const {
+      game,
+      path,
+      initalUsername,
+      handleStartGameForm,
+      socket,
+    } = this.props;
     return (
       <div>
         <Message message={this.state.message} />
         {path == '/' &&
-          <GameStartForm
-            initalUsername={initalUsername}
-            submit={handleStartGameForm}
-          />}
+          <div>
+            <GameStartForm
+              initalUsername={initalUsername}
+              submit={handleStartGameForm}
+            />
+            <GameRules shown sidebar={false} />
+          </div>}
+
         {path.includes('/waiting') &&
           <div>
             <Message message="Waiting for a second player to join." />
             <Waiting />
-            <GameRules shown={true} sidebar={false} />
+            <GameRules shown sidebar={false} />
           </div>}
         {path.includes('/game') &&
           game &&
@@ -45,7 +55,7 @@ class App extends Component {
               socket={socket}
               flashMessage={this.flashMessage}
             />
-            <GameRules sidebar={true} shown={false}/>
+            <GameRules sidebar shown={false} />
           </div>}
       </div>
     );
