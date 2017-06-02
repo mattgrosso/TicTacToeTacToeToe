@@ -2,15 +2,16 @@
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Incomplete_Ultimate_Tic-Tac-Toe_Board.png/220px-Incomplete_Ultimate_Tic-Tac-Toe_Board.png)
 
-Is an implementation of ["Ultimate Tic Tac Toe"](https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe) written as an online multiplayer game. It very basic AI, and a random player matching version. It uses node/express and a react/socket.io frontend.
+Is an implementation of ["Ultimate Tic Tac Toe"](https://en.wikipedia.org/wiki/Ultimate_tic-tac-toe) written as an online multiplayer game. It has a very basic AI, and random player matching. It uses node/express and a react/socket.io frontend.
 
 ## Development
 
 ```sh
-  npm install
+  npm install # npm i
 ```
 
 Run the local webpack server.   This will proxy requests to the dev server but __it will not start it__.
+If you want to use Hot Module Reload (HMR) use this and connect to http://localhost:9000
 ```sh
 npm run dev-webpack
 ```
