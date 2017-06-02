@@ -27,9 +27,9 @@ class Game extends React.Component {
     }
 
     if (this.playerTurn()) {
-      this.flashMessage(`Your Turn. You are ${this.player().symbol}.`);
+      this.flashMessage(`Your Turn. You are ${this.player().symbol}.`, false);
     } else {
-      this.flashMessage(`Waiting for ${game.currentPlayer}`);
+      this.flashMessage(`Waiting for ${game.currentPlayer}`, false);
     }
   }
 

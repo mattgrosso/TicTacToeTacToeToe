@@ -15,10 +15,11 @@ class App extends Component {
     this.flashMessage = this.flashMessage.bind(this);
   }
 
-  flashMessage(msg) {
+  flashMessage(msg, hideAfter = 750) {
     this.setState({ message: msg });
-
-    setTimeout(() => this.setState({ message: PAGETITLE }), 750);
+    if (hideAfter && hideAfter > 0) {
+      setTimeout(() => this.setState({ message: PAGETITLE }), hideAfter);
+    }
   }
 
   render() {
@@ -31,9 +32,9 @@ class App extends Component {
     } = this.props;
     return (
       <div>
-        <Message message={this.state.message} />
         {path == '/' &&
           <div>
+            <Message message={this.state.message} />
             <GameStartForm
               initalUsername={initalUsername}
               submit={handleStartGameForm}
@@ -50,6 +51,7 @@ class App extends Component {
         {path.includes('/game') &&
           game &&
           <div>
+            <Message message={this.state.message} />
             <Game
               game={game}
               socket={socket}
