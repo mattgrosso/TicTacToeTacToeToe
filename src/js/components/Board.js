@@ -54,7 +54,7 @@ class Board extends React.Component {
         innerGame={this.props.game[pos]}
         key={`o${pos}`}
         playable={(!nextBoard && active) || (nextBoard === pos && active)}
-        nextBoard={nextBoard === pos}
+        nextBoard={nextBoard === pos || nextBoard === false}
         makeMove={makeMove}
         highlightNextBoard={this.highlightNextBoard}
         highlightingNextBoard={this.state.highlightingNextBoard}
@@ -68,7 +68,7 @@ class Board extends React.Component {
     return (
       <section
         style={this.visible()}
-        className={`gameboard ${nextBoard ? '' : 'nextBoard'}`}
+        className="gameboard"
       >
         {this.gameOverDisplay()}
         {this.boards()}
