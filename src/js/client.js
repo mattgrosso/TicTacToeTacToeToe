@@ -5,7 +5,7 @@ import _hijackPushState from './utils/pushState';
 
 import App from './components/App';
 
-import '../scss/main.scss'
+import '../scss/main.scss';
 
 const socket = io({
   transports: ['websocket'],
@@ -39,7 +39,7 @@ socket.on('connected', (id) => {
 socket.on('exception', (error) => {
   message(error.msg);
   if (error.type === 'game_not_found') {
-    goTo('/')
+    goTo('/');
   }
 });
 
