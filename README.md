@@ -11,7 +11,7 @@ Is an implementation of ["Ultimate Tic Tac Toe"](https://en.wikipedia.org/wiki/U
 ```
 
 Run the local webpack server.   This will proxy requests to the dev server but __it will not start it__.
-If you want to use Hot Module Reload (HMR) use this and connect to http://localhost:9000
+If you want to use Hot Module Reload (HMR) use this command and connect to http://localhost:9000
 ```sh
 npm run dev-webpack
 ```
