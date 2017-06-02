@@ -118,3 +118,10 @@ function navigated(event) {
 
 // Handle browser navigation events
 window.onpopstate = history.onpushstate = navigated;
+
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./components/App', () => {
+    renderApp(game);
+  });
+}
