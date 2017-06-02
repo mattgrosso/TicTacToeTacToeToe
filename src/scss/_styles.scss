@@ -12,14 +12,14 @@ body{
 }
 
 .waiting-gif{
-  display: none;
+  display: block;
   margin: auto;
   border: solid;
   border-radius: 2px;
 }
 
 .resetButton{
-  display: none;
+  display: inline-block;
   position: relative;
   left: 22px;
   float: right;

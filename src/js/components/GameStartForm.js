@@ -29,25 +29,27 @@ class GameStartForm extends React.Component {
 
   render() {
     return (
-      <form id="register-new-player" onSubmit={this.handleSubmit}>
-        <label>
-          Username
-          <input
-            type="text"
-            name="username"
-            value={this.state.username}
-            placeholder="Anonymoose"
-            onChange={this.handleChange}
-          />
-        </label>
-        <label>
-          <input type="checkbox" onChange={this.handleToggleComputer} />
-          Play a Computer
-        </label>
-        <button className="new-game-button" type="submit" name="button">
-          Start Game
-        </button>
-      </form>
+      <section className="new-game">
+        <form id="register-new-player" onSubmit={this.handleSubmit}>
+          <label>
+            Username
+            <input
+              type="text"
+              name="username"
+              value={this.state.username}
+              placeholder="Anonymoose"
+              onChange={this.handleChange}
+            />
+          </label>
+          <label>
+            <input type="checkbox" onChange={this.handleToggleComputer} />
+            Play a Computer
+          </label>
+          <button className="new-game-button" type="submit" name="button">
+            Start Game
+          </button>
+        </form>
+      </section>
     );
   }
 }
